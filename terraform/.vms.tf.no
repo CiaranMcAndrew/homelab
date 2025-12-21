@@ -1,0 +1,66 @@
+# main.tf
+resource "proxmox_vm_qemu" "ubuntu_vm" {
+  name        = "ubuntu-vm-01"
+  target_node = "pve"  # Change to your Proxmox node name
+  
+  # Clone from template
+  clone      = "ubuntu-2204-template"  # Your template name
+  full_clone = true
+  
+  # VM configuration
+  cores   = 2
+  sockets = 1
+  memory  = 2048
+  
+  # Boot configuration
+  boot    = "order=scsi0"
+  agent   = 1  # Enable QEMU guest agent
+  
+  # Disk configuration
+  disks {
+    scsi {
+      scsi0 {
+        disk {
+          size    = 20
+          storage = "local-lvm"  # Change to your storage name
+        }
+      }
+    }
+  }
+  
+  # Network configuration
+  network {
+    id = 0
+    model  = "virtio"
+    bridge = "vmbr0"
+  }
+  
+  # Cloud-init configuration
+  ipconfig0 = "ip=dhcp"
+  
+  # SSH key for cloud-init
+  sshkeys = var.ssh_public_key
+  
+  # Lifecycle settings
+  lifecycle {
+    ignore_changes = [
+      network,
+    ]
+  }
+}
+
+# outputs.tf
+output "vm_id" {
+  description = "VM ID"
+  value       = proxmox_vm_qemu.ubuntu_vm.vmid
+}
+
+output "vm_name" {
+  description = "VM name"
+  value       = proxmox_vm_qemu.ubuntu_vm.name
+}
+
+output "vm_ip" {
+  description = "VM IP address"
+  value       = proxmox_vm_qemu.ubuntu_vm.default_ipv4_address
+}

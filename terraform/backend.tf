@@ -3,6 +3,15 @@ locals {
 }
 
 terraform {
+  required_version = ">= 1.0"
+  
+  required_providers {
+    proxmox = {
+      source  = "telmate/proxmox"
+      version = "3.0.2-rc07"
+    }
+  }
+  
   backend "http" {
     address        = local.gitlab_project_url
     lock_address   = "${local.gitlab_project_url}/lock"

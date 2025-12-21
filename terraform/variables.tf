@@ -11,3 +11,30 @@ variable "gitlab_username" {
 variable "gitlab_token" {
   type = string
 }
+
+variable "proxmox_api_url" {
+  type = string
+}
+
+variable "proxmox_user" {
+  type = string
+}
+
+variable "proxmox_token_id" {
+  type = string
+  sensitive = true
+}
+
+variable "proxmox_token_secret" {
+  type = string
+  sensitive = true
+}
+
+variable "proxmox_node" {
+  type = string
+  default = "lab"
+}
+
+variable "ssh_public_key" {
+  type = string
+}
