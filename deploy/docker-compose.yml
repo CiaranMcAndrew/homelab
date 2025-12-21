@@ -1,0 +1,16 @@
+services:
+  terraform-job:
+    build:
+      context: ../agent
+      dockerfile: Dockerfile
+    restart: no
+    container_name: homelab_agent
+    network_mode: host
+    volumes:
+      - ../terraform:/terraform:ro
+      - ../.env:/.env:ro
+      - /etc/resolv.conf:/etc/resolv.conf:ro
+    working_dir: /ansible
+    env_file: ../.env
+    environment:
+      - PLAYBOOK=playbook.yml
