@@ -1,16 +1,16 @@
 # main.tf
 resource "proxmox_vm_qemu" "ubuntu_vm" {
   name        = "ubuntu-vm-01"
-  target_node = "pve"  # Change to your Proxmox node name
+  target_node = var.proxmox_node
   
   # Clone from template
   clone      = "ubuntu-2204-template"  # Your template name
   full_clone = true
   
   # VM configuration
-  cores   = 2
+  cores   = 4
   sockets = 1
-  memory  = 2048
+  memory  = 8 * 1024  # GB RAM
   
   # Boot configuration
   boot    = "order=scsi0"
@@ -21,7 +21,7 @@ resource "proxmox_vm_qemu" "ubuntu_vm" {
     scsi {
       scsi0 {
         disk {
-          size    = 20
+          size    = 60 # GB
           storage = "local-lvm"  # Change to your storage name
         }
       }
