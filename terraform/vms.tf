@@ -1,15 +1,17 @@
 # main.tf
 resource "proxmox_vm_qemu" "ubuntu_vm" {
-  name        = "ubuntu-vm-01"
+  name        = "vm-01"
   target_node = var.proxmox_node
   
   # Clone from template
-  clone      = "ubuntu-2204-template"  # Your template name
+  clone      = var.template_name
   full_clone = true
   
   # VM configuration
-  cores   = 4
-  sockets = 1
+  cpu {
+    cores = 4
+    sockets = 1
+  }
   memory  = 8 * 1024  # GB RAM
   
   # Boot configuration

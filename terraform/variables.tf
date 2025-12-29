@@ -38,3 +38,8 @@ variable "proxmox_node" {
 variable "ssh_public_key" {
   type = string
 }
+
+variable "template_name" {
+  type    = string
+  default = "ubuntu-2204-template"
+}
