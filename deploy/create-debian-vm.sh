@@ -93,7 +93,6 @@ runcmd:
 users:
   - name: ${VM_USER}
     groups: sudo
-    passwd: 
     shell: /bin/bash
     sudo: ALL=(ALL) NOPASSWD:ALL
     lock_passwd: false
