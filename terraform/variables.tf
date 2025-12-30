@@ -35,6 +35,10 @@ variable "proxmox_node" {
   default = "lab"
 }
 
+variable "vm_storage" {
+  default = "local-lvm"
+}
+
 variable "ssh_public_key" {
   type = string
 }

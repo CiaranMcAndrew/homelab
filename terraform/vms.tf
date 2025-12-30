@@ -1,5 +1,4 @@
-# main.tf
-resource "proxmox_vm_qemu" "ubuntu_vm" {
+resource "proxmox_vm_qemu" "vm" {
   name        = "vm-01"
   target_node = var.proxmox_node
   
@@ -8,28 +7,31 @@ resource "proxmox_vm_qemu" "ubuntu_vm" {
   full_clone = true
   
   # VM configuration
-  cpu {
-    cores = 4
-    sockets = 1
-  }
-  memory  = 8 * 1024  # GB RAM
+  cores   = 4
+  sockets = 1
+  memory  = 8192  # MB
   
   # Boot configuration
-  boot    = "order=scsi0"
   agent   = 1  # Enable QEMU guest agent
   
-  # Disk configuration
-  disks {
-    scsi {
-      scsi0 {
-        disk {
-          size    = 60 # GB
-          storage = "local-lvm"  # Change to your storage name
-        }
-      }
-    }
+  scsihw = "virtio-scsi-pci"
+  bootdisk = "scsi0"  # Explicitly set boot disk
+  cicustom = "user=local:snippets/base.yaml"
+  # OS disk
+  disk {
+    slot    = "scsi0"
+    storage = "local-lvm"
+    size    = "60G"
+    type    = "disk"
   }
-  
+
+  # Cloud-init drive (REQUIRED)
+  disk {
+    slot     = "ide2"
+    type     = "cloudinit"
+    storage  = "local-lvm"
+  }
+
   # Network configuration
   network {
     id = 0
@@ -39,30 +41,11 @@ resource "proxmox_vm_qemu" "ubuntu_vm" {
   
   # Cloud-init configuration
   ipconfig0 = "ip=dhcp"
+  sshkeys   = var.ssh_public_key
   
-  # SSH key for cloud-init
-  sshkeys = var.ssh_public_key
-  
-  # Lifecycle settings
   lifecycle {
     ignore_changes = [
       network,
     ]
   }
-}
-
-# outputs.tf
-output "vm_id" {
-  description = "VM ID"
-  value       = proxmox_vm_qemu.ubuntu_vm.vmid
-}
-
-output "vm_name" {
-  description = "VM name"
-  value       = proxmox_vm_qemu.ubuntu_vm.name
-}
-
-output "vm_ip" {
-  description = "VM IP address"
-  value       = proxmox_vm_qemu.ubuntu_vm.default_ipv4_address
 }

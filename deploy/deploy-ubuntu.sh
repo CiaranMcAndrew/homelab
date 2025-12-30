@@ -1,0 +1,1 @@
+ssh root@192.168.51.225 'bash -s' < /home/ciaran/Applications/homelab/deploy/create-ubuntu-image.sh
