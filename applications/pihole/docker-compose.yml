@@ -1,0 +1,37 @@
+# docker-compose.yml
+version: "3"
+
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "80:80/tcp"
+    environment:
+      TZ: 'Europe/London'
+      WEBPASSWORD: 'your_secure_password_here'
+      PIHOLE_DNS_: '1.1.1.1;1.0.0.1'
+      DNSMASQ_LISTENING: 'all'
+    volumes:
+      # Mount custom configuration files
+      - './config/custom.list:/etc/pihole/custom.list:ro'
+      # - './config/adlists.list:/etc/pihole/adlists.list:ro'
+      # - './config/whitelist.txt:/etc/whitelist.txt:ro'
+      # - './config/blacklist.txt:/etc/blacklist.txt:ro'
+      # - './config/regex.list:/etc/pihole/regex.list:ro'
+      # - './config/05-custom.conf:/etc/dnsmasq.d/05-custom.conf:ro'
+      # Persist runtime data
+      - './data/pihole:/etc/pihole'
+      - './data/dnsmasq.d:/etc/dnsmasq.d'
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+    dns:
+      - 127.0.0.1
+      - 1.1.1.1
+    entrypoint: sh -c "
+      cp /etc/whitelist.txt /etc/pihole/whitelist.txt 2>/dev/null || true &&
+      cp /etc/blacklist.txt /etc/pihole/blacklist.txt 2>/dev/null || true &&
+      /s6-init"
