@@ -1,6 +1,6 @@
 ---
 - name: Deploy Portainer
-  hosts: docker_hosts
+  hosts: "{{ hosts | default('docker_hosts') }}"
   become: yes
   
   vars:
