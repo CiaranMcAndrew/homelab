@@ -1,0 +1,61 @@
+---
+- name: Deploy Portainer
+  hosts: docker_hosts
+  become: yes
+  
+  vars:
+    portainer_data_dir: /opt/portainer
+    portainer_version: latest
+    portainer_port: 9443
+    portainer_http_port: 9000
+    portainer_admin_password: "{{ lookup('env', 'PORTAINER_ADMIN_PASSWORD') | default('ChangeMe123!', true) }}"
+  
+  tasks:
+    - name: Ensure Docker is installed
+      command: docker --version
+      register: docker_check
+      failed_when: docker_check.rc != 0
+      changed_when: false
+    
+    - name: Create Portainer directory
+      file:
+        path: "{{ portainer_data_dir }}"
+        state: directory
+        mode: '0755'
+        owner: root
+        group: root
+    
+    - name: Copy docker-compose.yml for Portainer
+      copy:
+        src: /applications/portainer/docker-compose.yml
+        dest: "{{ portainer_data_dir }}/docker-compose.yml"
+        mode: '0644'
+    
+    - name: Deploy Portainer with Docker Compose
+      community.docker.docker_compose_v2:
+        project_src: "{{ portainer_data_dir }}"
+        state: present
+      register: portainer_output
+      environment:
+        PORTAINER_ADMIN_PASSWORD: "{{ portainer_admin_password }}"
+    
+    - name: Wait for Portainer to be ready
+      uri:
+        url: "https://{{ ansible_host }}:{{ portainer_port }}"
+        validate_certs: no
+        status_code: 200
+      register: result
+      until: result.status == 200
+      retries: 30
+      delay: 2
+      ignore_errors: yes
+    
+    - name: Display Portainer access information
+      debug:
+        msg:
+          - "Portainer has been deployed successfully!"
+          - "Access Portainer at:"
+          - "  HTTPS: https://{{ ansible_host }}:{{ portainer_port }}"
+          - "  HTTP:  http://{{ ansible_host }}:{{ portainer_http_port }}"
+          - ""
+          - "On first access, you'll need to create an admin account."

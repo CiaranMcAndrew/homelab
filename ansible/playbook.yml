@@ -1,0 +1,15 @@
+---
+- name: Ping hosts to check connectivity
+  hosts: docker_hosts
+  gather_facts: no
+  tasks:
+    - name: Ping
+      ping:
+
+    - name: Set facts that will persist
+      set_fact:
+        portainer_admin_password: "secret123"
+        cacheable: yes  # Optional: cache across plays
+
+- import_playbook: install-docker.yml
+- import_playbook: deploy-portainer.yml

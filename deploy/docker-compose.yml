@@ -1,17 +1,43 @@
 services:
   terraform-job:
+    profiles:
+      - all
+      - infrastructure
     build:
-      context: ../agent
+      context: ../agents/terraform
       dockerfile: Dockerfile
     restart: no
-    container_name: homelab_agent
+    container_name: terraform_agent
     network_mode: host
     volumes:
-      - ../terraform:/terraform:ro
-      - ../.env:/.env:ro
+      - ../../terraform:/terraform:ro
+      - ../../.env:/.env:ro
       - ~/.ssh/id_rsa:/root/.ssh/id_rsa:ro
       - /etc/resolv.conf:/etc/resolv.conf:ro
     working_dir: /terraform
-    env_file: ../.env
+    env_file: ../../.env
     environment:
       - PLAYBOOK=playbook.yml
+
+  ansible-job:
+    profiles:
+      - all
+      - applications
+    build:
+      context: ../agents/ansible
+      dockerfile: Dockerfile
+    restart: no
+    container_name: ansible_agent
+    network_mode: host
+    volumes:
+      - ../ansible:/ansible:ro
+      - ../applications:/applications:ro
+      - ../.env:/.env:ro
+      - ~/.ssh:/root/.ssh:ro
+      - /etc/resolv.conf:/etc/resolv.conf:ro
+      - ../agents/ansible/entrypoint.sh:/entrypoint.sh
+    entrypoint: /entrypoint.sh
+    working_dir: /ansible
+    env_file: ../.env
+    environment:
+      - PLAYBOOK=/ansible/playbook.yml

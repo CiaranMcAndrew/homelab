@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  portainer_password_hash:
+    image: httpd:2.4-alpine
+    container_name: portainer_password_hash
+    entrypoint: ["/bin/sh", "-c"]
+    command: |
+      echo "Hello World!"
+      echo "DEBUG: PORTAINER_ADMIN_PASSWORD='${PORTAINER_ADMIN_PASSWORD}'"
+    # htpasswd -nbB admin "${PORTAINER_ADMIN_PASSWORD}"
+    # | cut -d ':' -f2
+    # > /run/secrets/portainer_admin_password_hash
+    environment:
+      - PORTAINER_ADMIN_PASSWORD=${PORTAINER_ADMIN_PASSWORD}
+    volumes:
+      - portainer_secrets:/run/secrets
+    restart: "no"
+
+  portainer:
+    image: portainer/portainer-ce:${PORTAINER_VERSION:-latest}
+    container_name: portainer
+    restart: unless-stopped
+    # depends_on:
+    #   - portainer_password_hash
+    # command: --admin-password "$$(cat /run/secrets/portainer_admin_password_hash)"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - portainer_data:/data
+      # - portainer_secrets:/run/secrets:ro
+    ports:
+      - "${PORTAINER_HTTP_PORT:-9000}:9000"
+      - "${PORTAINER_HTTPS_PORT:-9443}:9443"
+    environment:
+      - TZ=${TIMEZONE:-UTC}
+    networks:
+      - portainer_net
+
+volumes:
+  portainer_data:
+  portainer_secrets:
+
+networks:
+  portainer_net:

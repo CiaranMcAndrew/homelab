@@ -1,0 +1,28 @@
+---
+- name: Ensure Docker is installed on target servers
+  hosts: docker_hosts
+  become: yes
+  
+  tasks:
+    - name: Install Docker using official script
+      shell: curl -fsSL https://get.docker.com | sh
+      args:
+        creates: /usr/bin/docker
+    
+    - name: Ensure Docker is started and enabled
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+    
+    - name: Add user to docker group
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+    
+    - name: Install Docker Compose plugin
+      apt:
+        name: docker-compose-plugin
+        state: present
+        update_cache: yes
