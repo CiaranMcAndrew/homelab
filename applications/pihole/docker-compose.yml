@@ -28,7 +28,3 @@ services:
     dns:
       - 127.0.0.1
       - 1.1.1.1
-    entrypoint: sh -c "
-      cp /etc/whitelist.txt /etc/pihole/whitelist.txt 2>/dev/null || true &&
-      cp /etc/blacklist.txt /etc/pihole/blacklist.txt 2>/dev/null || true &&
-      /s6-init"
