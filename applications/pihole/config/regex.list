@@ -1,0 +1,5 @@
+# config/regex.list
+# Regex patterns for blocking (one per line)
+^ad[sxv]?[0-9]*\.
+(\.|^)doubleclick\.
+^(.+[_.-])?adse?rv(er?|ice)?[0-9]*\.

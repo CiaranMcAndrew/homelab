@@ -1,0 +1,4 @@
+# config/blacklist.txt
+# Additional domains to always block (one per line)
+doubleclick.net
+ads.example.com

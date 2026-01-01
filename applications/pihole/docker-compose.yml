@@ -25,7 +25,7 @@ services:
         done
       "
     healthcheck:
-      test: ["CMD-SHELL", "test -d /git/.git"]
+      test: ["CMD-SHELL", "test -d /git/homelab/.git"]
       interval: 30s
       timeout: 5s
       retries: 3

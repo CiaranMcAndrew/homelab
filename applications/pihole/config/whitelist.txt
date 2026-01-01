@@ -1,0 +1,5 @@
+# config/whitelist.txt
+# Domains to never block (one per line)
+example.com
+google.com
+youtube.com
