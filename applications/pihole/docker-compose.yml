@@ -4,10 +4,10 @@ services:
     container_name: code-fetch
     image: alpine/git:latest
     volumes:
-      - /home/ciaran/git:/git/:rw
+      - git-data:/git/:rw
     environment:
       GIT_REPO: 'https://github.com/CiaranMcAndrew/homelab.git'
-      GIT_BRANCH: 'refs/heads/main'
+      GIT_BRANCH: 'main'
       SLEEP_INTERVAL: '300'
     command: >
       sh -c "
@@ -20,7 +20,7 @@ services:
         while true; do
           echo 'Pulling latest changes...';
           git pull origin \"$$GIT_BRANCH\";
-          sleep \"$$SLEEP_INTERVAL\";
+          sleep $$SLEEP_INTERVAL;
         done
       "
     healthcheck:
@@ -46,7 +46,7 @@ services:
     network_mode: "host"
     volumes:
       # Mount custom configuration files
-      - /home/ciaran/git/homelab/applications/pihole/config/:/etc/pihole:ro
+      - git-data/homelab/applications/pihole/config/:/etc/pihole:ro
       # - './config/custom.list:/etc/pihole/custom.list:ro'
       # - './config/adlists.list:/etc/pihole/adlists.list:ro'
       # - './config/whitelist.txt:/etc/whitelist.txt:ro'
@@ -65,3 +65,6 @@ services:
     dns:
       - 127.0.0.1
       - 1.1.1.1
+
+volumes:
+  git-data:
