@@ -41,7 +41,7 @@ services:
                   cp -v \"$$src\" \"$$dst\"
 
                   # Ensure Pi-hole can read/write
-                  # chown pihole:pihole \"$$dst\"
+                  chown 1000:1000 \"$$dst\"
                   chmod 644 \"$$dst\"
               else
                   echo \"Warning: $$src does not exist, skipping\"
