@@ -24,10 +24,29 @@ services:
           git pull origin \"$$GIT_BRANCH\";
 
           echo 'Copying pihole configuration data...';
-          cp -r /git/homelab/applications/pihole/config/adlists.list /etc/pihole/;          
-          cp -r /git/homelab/applications/pihole/config/custom.list /etc/pihole/;
-          chown pihole:pihole /etc/pihole/adlists.list;
-          chown pihole:pihole /etc/pihole/custom.list;
+
+          # Base paths
+          GIT_DIR="/git/homelab/applications/pihole/config"
+          PIHOLE_DIR="/etc/pihole"
+
+          # List of files (without .list extension)
+          for list in custom adlists; do
+              src="$$GIT_DIR/$list.list"
+              dst="$$PIHOLE_DIR/$list.list"
+
+              # Check if the file exists in git repo
+              if [ -f "$$src" ]; then
+                  echo "Copying $$src -> $$dst"
+                  cp -v "$$src" "$$dst"
+
+                  # Ensure Pi-hole can read/write
+                  # chown pihole:pihole "$$dst"
+                  chmod 644 "$$dst"
+              else
+                  echo "Warning: $$src does not exist, skipping"
+              fi
+          done
+
 
           echo 'Sleeping for $$SLEEP_INTERVAL seconds...';
           sleep $$SLEEP_INTERVAL;        
