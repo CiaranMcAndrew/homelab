@@ -19,8 +19,8 @@ services:
         cd /git;
         while true; do
           echo 'Pulling latest changes...';
-          git pull origin \"$GIT_BRANCH\";
-          sleep \"$SLEEP_INTERVAL\";
+          git pull origin \"$$GIT_BRANCH\";
+          sleep \"$$SLEEP_INTERVAL\";
         done
       "
     healthcheck:
