@@ -5,6 +5,7 @@ services:
     image: alpine/git:latest
     volumes:
       - /home/ciaran/git/:/git/:rw
+      - 'pihole-data:/etc/pihole'
     environment:
       GIT_REPO: 'https://github.com/CiaranMcAndrew/homelab.git'
       GIT_BRANCH: 'main'
@@ -23,6 +24,9 @@ services:
           git pull origin \"$$GIT_BRANCH\";
           sleep $$SLEEP_INTERVAL;
         done
+
+        echo "Copying pihole configuration data...";
+        cp -r /git/homelab/applications/pihole/config/* /etc/pihole/;
       "
     healthcheck:
       test: ["CMD-SHELL", "test -d /git/homelab/.git"]
@@ -47,16 +51,16 @@ services:
     network_mode: "host"
     volumes:
       # Mount custom configuration files
-      # - /home/ciaran/git/homelab/applications/pihole/config/:/etc/pihole:ro
-      - ${CONFIG_DIR}/custom.list:/etc/pihole/custom.list:ro
-      - ${CONFIG_DIR}/adlists.list:/etc/pihole/adlists.list:ro
-      - ${CONFIG_DIR}/whitelist.txt:/etc/whitelist.txt:ro
-      - ${CONFIG_DIR}/blacklist.txt:/etc/blacklist.txt:ro 
-      - ${CONFIG_DIR}/regex.list:/etc/pihole/regex.list:ro 
-      - ${CONFIG_DIR}/05-custom.conf:/etc/dnsmasq.d/05-custom.conf:ro
+      # # - /home/ciaran/git/homelab/applications/pihole/config/:/etc/pihole:ro
+      # - ${CONFIG_DIR}/custom.list:/etc/pihole/custom.list:ro
+      # - ${CONFIG_DIR}/adlists.list:/etc/pihole/adlists.list:ro
+      # - ${CONFIG_DIR}/whitelist.txt:/etc/whitelist.txt:ro
+      # - ${CONFIG_DIR}/blacklist.txt:/etc/blacklist.txt:ro 
+      # - ${CONFIG_DIR}/regex.list:/etc/pihole/regex.list:ro 
+      # - ${CONFIG_DIR}/05-custom.conf:/etc/dnsmasq.d/05-custom.conf:ro
       # Persist runtime data
-      - './data/pihole:/etc/pihole'
-      - './data/dnsmasq.d:/etc/dnsmasq.d'
+      - 'pihole-data:/etc/pihole'
+      - ${GIT_DATA_DIR}/dnsmasq.d:/etc/dnsmasq.d
     cap_add:
       - NET_ADMIN
     depends_on:
@@ -69,3 +73,4 @@ services:
 
 volumes:
   git-data:
+  phole-data:
