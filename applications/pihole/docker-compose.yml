@@ -31,19 +31,20 @@ services:
 
           # List of files (without .list extension)
           for list in custom adlists; do
-              src="$$GIT_DIR/$list.list"
-              dst="$$PIHOLE_DIR/$list.list"
+              src=\"$$GIT_DIR/$$list.list\"
+              dst=\"$$PIHOLE_DIR/$$list.list\"
+              echo \"Copying $$src to $$dst\"
 
               # Check if the file exists in git repo
-              if [ -f "$$src" ]; then
-                  echo "Copying $$src -> $$dst"
-                  cp -v "$$src" "$$dst"
+              if [ -f \"$$src\" ]; then
+                  echo \"Copying $$src -> $$dst\"
+                  cp -v \"$$src\" \"$$dst\"
 
                   # Ensure Pi-hole can read/write
-                  # chown pihole:pihole "$$dst"
-                  chmod 644 "$$dst"
+                  # chown pihole:pihole \"$$dst\"
+                  chmod 644 \"$$dst\"
               else
-                  echo "Warning: $$src does not exist, skipping"
+                  echo \"Warning: $$src does not exist, skipping\"
               fi
           done
 
