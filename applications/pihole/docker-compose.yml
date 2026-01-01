@@ -12,6 +12,7 @@ services:
       WEBPASSWORD: 'your_secure_password_here'
       PIHOLE_DNS_: '1.1.1.1;1.0.0.1'
       DNSMASQ_LISTENING: 'all'
+    network_mode: "host"
     volumes:
       # Mount custom configuration files
       - './config/custom.list:/etc/pihole/custom.list:ro'
