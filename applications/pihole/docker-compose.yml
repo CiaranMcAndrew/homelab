@@ -24,9 +24,6 @@ services:
           git pull origin \"$$GIT_BRANCH\";
           sleep $$SLEEP_INTERVAL;
         done
-
-        echo "Copying pihole configuration data...";
-        cp -r /git/homelab/applications/pihole/config/* /etc/pihole/;
       "
     healthcheck:
       test: ["CMD-SHELL", "test -d /git/homelab/.git"]
@@ -35,6 +32,25 @@ services:
       retries: 3
       start_period: 30s
     restart: unless-stopped
+
+
+  pihole-init:
+    image: alpine:latest
+    container_name: pihole-init
+    depends_on:
+      code-fetch:
+        condition: service_healthy
+    volumes:
+      - /home/ciaran/git/:/git/:rw
+      - 'pihole-data:/etc/pihole'
+    entrypoint: ["/bin/sh", "-c"]
+    command: >
+      "
+        set -e;
+        echo "Copying pihole configuration data...";
+        cp -r /git/homelab/applications/pihole/config/* /etc/pihole/;
+      "
+    restart: "no"
 
   pihole:
     container_name: pihole
@@ -64,7 +80,7 @@ services:
     cap_add:
       - NET_ADMIN
     depends_on:
-      code-fetch:
+      pihole-init:
         condition: service_healthy
     restart: unless-stopped
     dns:
