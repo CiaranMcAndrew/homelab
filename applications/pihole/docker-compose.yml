@@ -14,7 +14,7 @@ services:
         set -e;
         if [ ! -d /git/.git ]; then
           echo 'Cloning repository...';
-          git clone --branch \"$GIT_BRANCH\" \"$GIT_REPO\" /git;
+          git clone --branch \"$$GIT_BRANCH\" \"$$GIT_REPO\" /git;
         fi;
         cd /git;
         while true; do
