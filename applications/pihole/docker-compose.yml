@@ -25,7 +25,7 @@ services:
 
           echo 'Copying pihole configuration data...';
           cp -r /git/homelab/applications/pihole/config/* /etc/pihole/;
-          
+
           echo 'Sleeping for $$SLEEP_INTERVAL seconds...';
           sleep $$SLEEP_INTERVAL;        
         done
@@ -38,25 +38,6 @@ services:
       retries: 3
       start_period: 30s
     restart: unless-stopped
-
-
-  # pihole-init:
-  #   image: alpine:latest
-  #   container_name: pihole-init
-  #   depends_on:
-  #     code-fetch:
-  #       condition: service_healthy
-  #   volumes:
-  #     - /home/ciaran/git/:/git/:rw
-  #     - 'pihole-data:/etc/pihole'
-  #   entrypoint: ["/bin/sh", "-c"]
-  #   command: >
-  #     "
-  #       set -e;
-  #       echo "Copying pihole configuration data...";
-  #       cp -r /git/homelab/applications/pihole/config/* /etc/pihole/;
-  #     "
-  #   restart: "no"
 
   pihole:
     container_name: pihole
@@ -72,15 +53,6 @@ services:
       DNSMASQ_LISTENING: 'all'
     network_mode: "host"
     volumes:
-      # Mount custom configuration files
-      # # - /home/ciaran/git/homelab/applications/pihole/config/:/etc/pihole:ro
-      # - ${CONFIG_DIR}/custom.list:/etc/pihole/custom.list:ro
-      # - ${CONFIG_DIR}/adlists.list:/etc/pihole/adlists.list:ro
-      # - ${CONFIG_DIR}/whitelist.txt:/etc/whitelist.txt:ro
-      # - ${CONFIG_DIR}/blacklist.txt:/etc/blacklist.txt:ro 
-      # - ${CONFIG_DIR}/regex.list:/etc/pihole/regex.list:ro 
-      # - ${CONFIG_DIR}/05-custom.conf:/etc/dnsmasq.d/05-custom.conf:ro
-      # Persist runtime data
       - 'pihole-data:/etc/pihole'
       - ${GIT_DATA_DIR}/dnsmasq.d:/etc/dnsmasq.d
     cap_add:

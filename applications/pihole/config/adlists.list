@@ -1,5 +1,3 @@
-# config/adlists.list
-# Ad-blocking lists to use
 https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
 https://v.firebog.net/hosts/AdguardDNS.txt
 https://v.firebog.net/hosts/Admiral.txt
