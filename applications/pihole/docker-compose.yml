@@ -23,10 +23,11 @@ services:
           echo 'Pulling latest changes...';
           git pull origin \"$$GIT_BRANCH\";
           sleep $$SLEEP_INTERVAL;
+  
+          echo "Copying pihole configuration data...";
+          cp -r /git/homelab/applications/pihole/config/* /etc/pihole/;
         done
         
-        echo "Copying pihole configuration data...";
-        cp -r /git/homelab/applications/pihole/config/* /etc/pihole/;
       "
     healthcheck:
       test: ["CMD-SHELL", "test -d /git/homelab/.git"]
