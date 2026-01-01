@@ -47,7 +47,13 @@ services:
     network_mode: "host"
     volumes:
       # Mount custom configuration files
-      - /home/ciaran/git/homelab/applications/pihole/config/:/etc/pihole:ro
+      # - /home/ciaran/git/homelab/applications/pihole/config/:/etc/pihole:ro
+      - ${CONFIG_DIR}/custom.list:/etc/pihole/custom.list:ro
+      - ${CONFIG_DIR}/adlists.list:/etc/pihole/adlists.list:ro
+      - ${CONFIG_DIR}/whitelist.txt:/etc/whitelist.txt:ro
+      - ${CONFIG_DIR}/blacklist.txt:/etc/blacklist.txt:ro 
+      - ${CONFIG_DIR}/regex.list:/etc/pihole/regex.list:ro 
+      - ${CONFIG_DIR}/05-custom.conf:/etc/dnsmasq.d/05-custom.conf:ro
       # Persist runtime data
       - './data/pihole:/etc/pihole'
       - './data/dnsmasq.d:/etc/dnsmasq.d'
