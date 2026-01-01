@@ -13,11 +13,11 @@ services:
     command: >
       "
         set -e;
-        if [ ! -d /git/.git ]; then
+        if [ ! -d /git/homelab/.git ]; then
           echo 'Cloning repository...';
-          git clone --branch \"$$GIT_BRANCH\" \"$$GIT_REPO\" /git;
+          git clone --branch \"$$GIT_BRANCH\" \"$$GIT_REPO\" /git/homelab;
         fi;
-        cd /git;
+        cd /git/homelab;
         while true; do
           echo 'Pulling latest changes...';
           git pull origin \"$$GIT_BRANCH\";
