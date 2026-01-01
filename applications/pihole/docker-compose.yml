@@ -9,8 +9,9 @@ services:
       GIT_REPO: 'https://github.com/CiaranMcAndrew/homelab.git'
       GIT_BRANCH: 'main'
       SLEEP_INTERVAL: '300'
+    entrypoint: ['/bin/sh', '-c']
     command: >
-      sh -c "
+      "
         set -e;
         if [ ! -d /git/.git ]; then
           echo 'Cloning repository...';
