@@ -1,4 +1,36 @@
 services:
+
+  code-fetch:
+    container_name: code-fetch
+    image: alpine/git:latest
+    volumes:
+      - git-data:/git/
+    environment:
+      GIT_REPO: 'https://github.com/CiaranMcAndrew/homelab.git'
+      GIT_BRANCH: 'refs/heads/main'
+      SLEEP_INTERVAL: '300'
+    command: >
+      sh -c "
+        set -e;
+        if [ ! -d /git/.git ]; then
+          echo 'Cloning repository...';
+          git clone --branch \"$GIT_BRANCH\" \"$GIT_REPO\" /git;
+        fi;
+        cd /git;
+        while true; do
+          echo 'Pulling latest changes...';
+          git pull origin \"$GIT_BRANCH\";
+          sleep \"$SLEEP_INTERVAL\";
+        done
+      "
+    healthcheck:
+      test: ["CMD-SHELL", "test -d /git/.git"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+
   pihole:
     container_name: pihole
     image: pihole/pihole:latest
@@ -9,13 +41,13 @@ services:
       - "443:443/tcp"
     environment:
       TZ: 'Europe/London'
-      WEBPASSWORD: 'your_secure_password_here'
       PIHOLE_DNS_: '1.1.1.1;1.0.0.1'
       DNSMASQ_LISTENING: 'all'
     network_mode: "host"
     volumes:
       # Mount custom configuration files
-      - './config/custom.list:/etc/pihole/custom.list:ro'
+      - git-data/applications/pihole/config/:/etc/pihole:ro
+      # - './config/custom.list:/etc/pihole/custom.list:ro'
       # - './config/adlists.list:/etc/pihole/adlists.list:ro'
       # - './config/whitelist.txt:/etc/whitelist.txt:ro'
       # - './config/blacklist.txt:/etc/blacklist.txt:ro'
@@ -26,7 +58,13 @@ services:
       - './data/dnsmasq.d:/etc/dnsmasq.d'
     cap_add:
       - NET_ADMIN
+    depends_on:
+      code-fetch:
+        condition: service_healthy
     restart: unless-stopped
     dns:
       - 127.0.0.1
       - 1.1.1.1
+
+volumes:
+  git-data:
