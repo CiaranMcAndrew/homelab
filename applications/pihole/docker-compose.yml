@@ -4,7 +4,7 @@ services:
     container_name: code-fetch
     image: alpine/git:latest
     volumes:
-      - git-data:/git/
+      - ~/git:/git/
     environment:
       GIT_REPO: 'https://github.com/CiaranMcAndrew/homelab.git'
       GIT_BRANCH: 'refs/heads/main'
@@ -46,7 +46,7 @@ services:
     network_mode: "host"
     volumes:
       # Mount custom configuration files
-      - git-data/applications/pihole/config/:/etc/pihole:ro
+      - ~/git/homelab/applications/pihole/config/:/etc/pihole:ro
       # - './config/custom.list:/etc/pihole/custom.list:ro'
       # - './config/adlists.list:/etc/pihole/adlists.list:ro'
       # - './config/whitelist.txt:/etc/whitelist.txt:ro'
@@ -65,6 +65,3 @@ services:
     dns:
       - 127.0.0.1
       - 1.1.1.1
-
-volumes:
-  git-data:
