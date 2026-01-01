@@ -22,11 +22,11 @@ services:
         while true; do
           echo 'Pulling latest changes...';
           git pull origin \"$$GIT_BRANCH\";
-          
-          echo "Copying pihole configuration data...";
+
+          echo 'Copying pihole configuration data...';
           cp -r /git/homelab/applications/pihole/config/* /etc/pihole/;
-  
-          echo "Sleeping for $$SLEEP_INTERVAL seconds...";
+          
+          echo 'Sleeping for $$SLEEP_INTERVAL seconds...';
           sleep $$SLEEP_INTERVAL;        
         done
         
