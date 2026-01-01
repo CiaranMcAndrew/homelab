@@ -83,7 +83,7 @@ services:
     cap_add:
       - NET_ADMIN
     depends_on:
-      pihole-init:
+      code-fetch:
         condition: service_healthy
     restart: unless-stopped
     dns:
