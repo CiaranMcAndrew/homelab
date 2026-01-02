@@ -99,15 +99,11 @@ services:
   pihole:
     container_name: pihole
     image: pihole/pihole:latest
-    ports:
-      - "53:53/tcp"
-      - "53:53/udp"
-      - "80:80/tcp"
-      - "443:443/tcp"
     environment:
       TZ: 'Europe/London'
       PIHOLE_DNS_: '1.1.1.1;1.0.0.1'
       DNSMASQ_LISTENING: 'all'
+      FTLCONF_webserver_port: '8080o,[::]:8080o,8443os,[::]:8443os'
     network_mode: "host"
     volumes:
       - 'pihole-data:/etc/pihole'
