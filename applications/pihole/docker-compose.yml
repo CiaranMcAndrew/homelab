@@ -17,7 +17,7 @@ services:
       - --entrypoints.web.http.redirections.entryPoint.to=web-secure
       - --entrypoints.web.http.redirections.entryPoint.scheme=https
       - --entrypoints.web.http.redirections.entrypoint.permanent=true
-      - --certificatesresolvers.myresolver.acme.dnschallenge=${DNS_CHALLENGE:-true}
+      - --certificatesresolvers.myresolver.acme.dnschallenge=${DNS_CHALLENGE:-false}
       - --certificatesresolvers.myresolver.acme.dnschallenge.provider=${DNS_CHALLENGE_PROVIDER:-cloudflare}
       - --certificatesresolvers.myresolver.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53
       - --certificatesresolvers.myresolver.acme.caserver=${LETS_ENCRYPT_CA_SERVER:-https://acme-v02.api.letsencrypt.org/directory}
@@ -114,9 +114,9 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.pihole.rule=pihole.lab
-      - traefik.http.routers.pihole.tls=${USE_TLS:-true}
+      - traefik.http.routers.pihole.tls=${USE_TLS:-false}
       - traefik.http.routers.pihole.tls.certresolver=${TLS_RESOLVER:-myresolver}
-      - traefik.http.services.pihole.loadbalancer.server.port=8443
+      - traefik.http.services.pihole.loadbalancer.server.port=8080
     environment:
       TZ: 'Europe/London'
       PIHOLE_DNS_: '1.1.1.1;1.0.0.1'
@@ -160,8 +160,8 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.homepage.rule=home.lab
-      - traefik.http.routers.homepage.tls=${USE_TLS:-true}
-      - traefik.http.routers.homepage.tls.certresolver=${TLS_RESOLVER:-myresolver}
+      - traefik.http.routers.homepage.tls=${USE_TLS:-false}
+      # - traefik.http.routers.homepage.tls.certresolver=${TLS_RESOLVER:-myresolver}
       - traefik.http.services.homepage.loadbalancer.server.port=3000
 
 volumes:
