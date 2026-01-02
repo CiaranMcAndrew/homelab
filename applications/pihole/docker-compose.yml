@@ -122,7 +122,7 @@ services:
     image: pihole/pihole:latest
     labels:
       - traefik.enable=true
-      - traefik.http.routers.pihole.rule=pihole.lab
+      - traefik.http.routers.pihole.rule=Host(`pihole.lab`)
       - traefik.http.routers.pihole.tls=${USE_TLS:-false}
       - traefik.http.routers.pihole.tls.certresolver=${TLS_RESOLVER:-myresolver}
       - traefik.http.services.pihole.loadbalancer.server.port=8080
@@ -168,7 +168,7 @@ services:
       [sh, -c, "cp -n /app/config/tpl/*.yaml /app/config && node server.js"]
     labels:
       - traefik.enable=true
-      - traefik.http.routers.homepage.rule=home.lab
+      - traefik.http.routers.homepage.rule=Host('home.lab')
       - traefik.http.routers.homepage.tls=${USE_TLS:-false}
       # - traefik.http.routers.homepage.tls.certresolver=${TLS_RESOLVER:-myresolver}
       - traefik.http.services.homepage.loadbalancer.server.port=3000
