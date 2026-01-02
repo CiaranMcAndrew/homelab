@@ -6,7 +6,6 @@ services:
     restart: always
     environment:
       - LETS_ENCRYPT_EMAIL=${LETS_ENCRYPT_EMAIL}
-    command:
       - --ping=true
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
@@ -21,13 +20,15 @@ services:
       - --certificatesresolvers.myresolver.acme.caserver=${LETS_ENCRYPT_CA_SERVER:-https://acme-v02.api.letsencrypt.org/directory}
       - --certificatesresolvers.myresolver.acme.email=${LETS_ENCRYPT_EMAIL}
       - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
-
-      # Proxmox host
       - "traefik.http.routers.proxmox.rule=Host(`proxmox.home`)"
+
+      # Proxmox settings - externally managed so they are hard coded here rather than dyanmic
       - "traefik.http.routers.proxmox.entrypoints=websecure"
-      - "traefik.http.routers.proxmox.tls=true
+      - "traefik.http.routers.proxmox.tls=true"
+
       - "traefik.http.services.proxmox.loadbalancer.server.url=https://192.168.51.225:8006"
       - "traefik.http.services.proxmox.loadbalancer.serverstransport=proxmox-transport"
+
       - "traefik.http.serverstransports.proxmox-transport.insecureskipverify=true"
     ports:
       - "80:80"
@@ -48,7 +49,6 @@ services:
     volumes:
       - /home/ciaran/git/:/git/:rw
       - 'pihole-data:/etc/pihole'
-      - 'traefik-data:/etc/traefik'
     environment:
       GIT_REPO: 'https://github.com/CiaranMcAndrew/homelab.git'
       GIT_BRANCH: 'main'
@@ -91,11 +91,6 @@ services:
               fi
           done
 
-          echo 'Copying traefik configuration data...'
-          GIT_DIR="/git/homelab/applications/traefik/dynamic"
-          TRAEFIK_DIR="/etc/traefik"
-
-          cp -v \"$$GIT_DIR\" \"$$TRAEFIK_DIR\"
 
           echo 'Sleeping for $$SLEEP_INTERVAL seconds...';
           sleep $$SLEEP_INTERVAL;        
@@ -143,7 +138,6 @@ volumes:
   git-data:
   pihole-data:
   letsencrypt-data:
-  traefik-data:
 
 
 networks:
