@@ -9,7 +9,7 @@ services:
     command:
       - --ping=true
       - --api.dashboard=true
-      - --api.insecure=false
+      - --api.insecure=true
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
       - --entrypoints.web.address=:80
@@ -24,8 +24,17 @@ services:
       - --certificatesresolvers.myresolver.acme.email=${LETS_ENCRYPT_EMAIL}
       - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
     labels:
+      # Dashboard routing
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.lab`)"
+      - "traefik.http.routers.dashboard.entrypoints=web-secure"
+      - "traefik.http.routers.dashboard.tls=true"
+      - "traefik.http.routers.dashboard.tls.certresolver=myresolver"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.middlewares=auth"
+
       # Proxmox settings - externally managed so they are hard coded here rather than dyanmic
-      - "traefik.http.routers.proxmox.rule=Host(`proxmox.home`)"
+      - "traefik.http.routers.proxmox.rule=Host(`proxmox.lab`)"
       - "traefik.http.routers.proxmox.entrypoints=websecure"
       - "traefik.http.routers.proxmox.tls=true"
       - "traefik.http.routers.proxmox.tls.certresolver=myresolver"
