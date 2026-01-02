@@ -113,7 +113,7 @@ services:
     image: pihole/pihole:latest
     labels:
       - traefik.enable=true
-      - traefik.http.routers.pihole.rule=lab
+      - traefik.http.routers.pihole.rule=pihole.lab
       - traefik.http.routers.pihole.tls=${USE_TLS:-true}
       - traefik.http.routers.pihole.tls.certresolver=${TLS_RESOLVER:-myresolver}
       - traefik.http.services.pihole.loadbalancer.server.port=8443
@@ -136,6 +136,33 @@ services:
     dns:
       - 127.0.0.1
       - 1.1.1.1
+
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    environment:
+      - HOMEPAGE_VAR_TITLE="Home Lab"
+      - HOMEPAGE_VAR_SEARCH_PROVIDER="google"
+      # - HOMEPAGE_VAR_HEADER_STYLE=boxed
+      # - HOMEPAGE_VAR_WEATHER_CITY=${HOMEPAGE_VAR_WEATHER_CITY}
+      # - HOMEPAGE_VAR_WEATHER_LAT=${HOMEPAGE_VAR_WEATHER_LAT}
+      # - HOMEPAGE_VAR_WEATHER_LONG=${HOMEPAGE_VAR_WEATHER_LONG}
+      # - HOMEPAGE_VAR_WEATHER_TIME=${TIMEZONE}
+      - HOMEPAGE_VAR_WEATHER_UNIT=metric
+      - HOMEPAGE_ALLOWED_HOSTS=* #${HOSTNAME},localhost:7080
+    volumes:
+      - ${CONFIG_ROOT:-.}/homepage:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${DATA_ROOT}:/data
+    restart: always
+    command:
+      [sh, -c, "cp -n /app/config/tpl/*.yaml /app/config && node server.js"]
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.homepage.rule=home.lab
+      - traefik.http.routers.homepage.tls=${USE_TLS:-true}
+      - traefik.http.routers.homepage.tls.certresolver=${TLS_RESOLVER:-myresolver}
+      - traefik.http.services.homepage.loadbalancer.server.port=3000
 
 volumes:
   git-data:
