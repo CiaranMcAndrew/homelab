@@ -99,11 +99,18 @@ services:
   pihole:
     container_name: pihole
     image: pihole/pihole:latest
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.pihole.rule=lab
+      - traefik.http.routers.pihole.tls=${USE_TLS:-true}
+      - traefik.http.routers.pihole.tls.certresolver=${TLS_RESOLVER:-myresolver}
+      - traefik.http.services.pihole.loadbalancer.server.port=8443
     environment:
       TZ: 'Europe/London'
       PIHOLE_DNS_: '1.1.1.1;1.0.0.1'
       DNSMASQ_LISTENING: 'all'
       FTLCONF_webserver_port: '8080o,[::]:8080o,8443os,[::]:8443os'
+      
     network_mode: "host"
     volumes:
       - 'pihole-data:/etc/pihole'
