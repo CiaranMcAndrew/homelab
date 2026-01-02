@@ -27,16 +27,16 @@ services:
       # Dashboard routing
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.rule=Host(`traefik.lab`)"
-      - "traefik.http.routers.dashboard.entrypoints=web-secure"
-      - "traefik.http.routers.dashboard.tls=true"
-      - "traefik.http.routers.dashboard.tls.certresolver=myresolver"
+      - "traefik.http.routers.dashboard.entrypoints=web"
+      # - "traefik.http.routers.dashboard.tls=true"
+      # - "traefik.http.routers.dashboard.tls.certresolver=myresolver"
       - "traefik.http.routers.dashboard.service=api@internal"
 
       # Proxmox settings - externally managed so they are hard coded here rather than dyanmic
       - "traefik.http.routers.proxmox.rule=Host(`proxmox.lab`)"
-      - "traefik.http.routers.proxmox.entrypoints=websecure"
-      - "traefik.http.routers.proxmox.tls=true"
-      - "traefik.http.routers.proxmox.tls.certresolver=myresolver"
+      - "traefik.http.routers.proxmox.entrypoints=web"
+      # - "traefik.http.routers.proxmox.tls=true"
+      # - "traefik.http.routers.proxmox.tls.certresolver=myresolver"
       - "traefik.http.services.proxmox.loadbalancer.server.url=https://192.168.51.225:8006"
       - "traefik.http.services.proxmox.loadbalancer.serverstransport=proxmox-transport"
       - "traefik.http.serverstransports.proxmox-transport.insecureskipverify=true"
