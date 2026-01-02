@@ -9,14 +9,15 @@ services:
     command:
       - --ping=true
       - --api.dashboard=true
-      - --api.insecure=true
+      - --api.insecure=false
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
       - --entrypoints.web.address=:80
       - --entrypoints.web-secure.address=:443
-      - --entrypoints.web.http.redirections.entryPoint.to=web
-      - --entrypoints.web.http.redirections.entryPoint.scheme=http
-      - --entrypoints.web.http.redirections.entrypoint.permanent=true
+      # - --entrypoints.web.http.redirections.entryPoint.to=web
+      # - --entrypoints.web.http.redirections.entryPoint.scheme=http
+      # - --entrypoints.web.http.redirections.entrypoint.permanent=true
+
       - --certificatesresolvers.myresolver.acme.dnschallenge=${DNS_CHALLENGE:-false}
       - --certificatesresolvers.myresolver.acme.dnschallenge.provider=${DNS_CHALLENGE_PROVIDER:-cloudflare}
       - --certificatesresolvers.myresolver.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53
