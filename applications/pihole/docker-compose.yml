@@ -151,9 +151,9 @@ services:
       - HOMEPAGE_VAR_WEATHER_UNIT=metric
       - HOMEPAGE_ALLOWED_HOSTS=* #${HOSTNAME},localhost:7080
     volumes:
-      - ${CONFIG_ROOT:-.}/homepage:/app/config
+      # - ${CONFIG_ROOT:-.}/homepage:/app/config
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ${DATA_ROOT}:/data
+      # - ${DATA_ROOT}:/data
     restart: always
     command:
       [sh, -c, "cp -n /app/config/tpl/*.yaml /app/config && node server.js"]
