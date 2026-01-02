@@ -21,6 +21,14 @@ services:
       - --certificatesresolvers.myresolver.acme.caserver=${LETS_ENCRYPT_CA_SERVER:-https://acme-v02.api.letsencrypt.org/directory}
       - --certificatesresolvers.myresolver.acme.email=${LETS_ENCRYPT_EMAIL}
       - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+
+      # Proxmox host
+      - "traefik.http.routers.proxmox.rule=Host(`proxmox.home`)"
+      - "traefik.http.routers.proxmox.entrypoints=websecure"
+      - "traefik.http.routers.proxmox.tls=true
+      - "traefik.http.services.proxmox.loadbalancer.server.url=https://192.168.51.225:8006"
+      - "traefik.http.services.proxmox.loadbalancer.serverstransport=proxmox-transport"
+      - "traefik.http.serverstransports.proxmox-transport.insecureskipverify=true"
     ports:
       - "80:80"
       - "443:443"
