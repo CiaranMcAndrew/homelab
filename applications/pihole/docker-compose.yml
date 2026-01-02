@@ -40,6 +40,7 @@ services:
     volumes:
       - /home/ciaran/git/:/git/:rw
       - 'pihole-data:/etc/pihole'
+      - 'traefik-data:/etc/traefik'
     environment:
       GIT_REPO: 'https://github.com/CiaranMcAndrew/homelab.git'
       GIT_BRANCH: 'main'
@@ -82,6 +83,11 @@ services:
               fi
           done
 
+          echo 'Copying traefik configuration data...'
+          GIT_DIR="/git/homelab/applications/traefik/dynamic"
+          TRAEFIK_DIR="/etc/traefik"
+
+          cp -v \"$$GIT_DIR\" \"$$TRAEFIK_DIR\"
 
           echo 'Sleeping for $$SLEEP_INTERVAL seconds...';
           sleep $$SLEEP_INTERVAL;        
@@ -129,6 +135,7 @@ volumes:
   git-data:
   pihole-data:
   letsencrypt-data:
+  traefik-data:
 
 
 networks:

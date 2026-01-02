@@ -1,0 +1,18 @@
+http:
+  routers:
+    proxmox:
+      rule: Host(`proxmox.home`)
+      entryPoints:
+        - websecure
+      service: proxmox
+      tls: {}
+
+  services:
+    proxmox:
+      loadBalancer:
+        servers:
+          - url: "https://192.168.51.225:8006"
+
+  serversTransports:
+    proxmox-transport:
+      insecureSkipVerify: true
