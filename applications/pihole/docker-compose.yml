@@ -172,7 +172,7 @@ services:
       traefik.http.routers.portainer.entrypoints: web
       # traefik.http.routers.portainer.tls: false
       # traefik.http.routers.portainer.tls.certresolver: myresolver
-      traefik.http.services.portainer.loadbalancer.server.url: http://host.docker.internal:9443
+      traefik.http.services.portainer.loadbalancer.server.url: https://host.docker.internal:9443
       traefik.http.services.portainer.loadbalancer.serverstransport: internal-https
     restart: unless-stopped
 
