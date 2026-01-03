@@ -8,6 +8,7 @@ services:
       - /home/ciaran/git/:/git/:rw
       - 'pihole-data:/etc/pihole'
       - 'homepage-data:/etc/homepage'
+      - jellyfin-data:/etc/jellyfin 
     environment:
       GIT_REPO: 'https://github.com/CiaranMcAndrew/homelab.git'
       GIT_BRANCH: 'main'
@@ -52,6 +53,9 @@ services:
 
           echo 'Copying homepage configuration data...';
           cp -vr /git/homelab/applications/homepage/config/* /etc/homepage/
+
+          echo 'Copying Jellyfin data...';
+          cp -vr /git/homelab/applications/media/jellyfin/* /etc/jellyfin/
 
           echo 'Sleeping for $$SLEEP_INTERVAL seconds...';
           sleep $$SLEEP_INTERVAL;        
@@ -98,6 +102,8 @@ services:
       # - "traefik.http.routers.dashboard.tls=true"
       # - "traefik.http.routers.dashboard.tls.certresolver=myresolver"
       - "traefik.http.routers.dashboard.service=api@internal"
+
+      # Internal HTTPS transport (for services using HTTPS backend)
       - traefik.http.serverstransports.internal-https.insecureskipverify=true
 
       # Homepage 
@@ -245,6 +251,7 @@ volumes:
   pihole-data:
   letsencrypt-data:
   homepage-data:
+  jellyfin-data:
 
 networks:
   default:
