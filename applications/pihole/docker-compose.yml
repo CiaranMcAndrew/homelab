@@ -53,7 +53,6 @@ services:
           echo 'Copying homepage configuration data...';
           cp -vr /git/homelab/applications/homepage/config/* /etc/homepage/
 
-
           echo 'Sleeping for $$SLEEP_INTERVAL seconds...';
           sleep $$SLEEP_INTERVAL;        
         done
