@@ -248,10 +248,15 @@ services:
 
 volumes:
   git-data:
+    name: git-data
   pihole-data:
+    name: pihole-data
   letsencrypt-data:
+    name: letsencrypt-data
   homepage-data:
+    name: homepage-data
   jellyfin-data:
+    name: jellyfin-data
 
 networks:
   default:
