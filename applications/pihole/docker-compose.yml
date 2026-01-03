@@ -32,6 +32,11 @@ services:
       # - "traefik.http.routers.dashboard.tls=true"
       # - "traefik.http.routers.dashboard.tls.certresolver=myresolver"
       - "traefik.http.routers.dashboard.service=api@internal"
+      
+      # Portainer settings - externally managed so they are hard coded here rather than dyanmic
+      - "traefik.http.routers.portainer.rule=Host(`portainer.lab`)"
+      - "traefik.http.routers.portainer.entrypoints=web"
+      - "traefik.http.services.portainer.loadbalancer.server.url=https://192.168.51.218:9443"
 
       # Proxmox settings - externally managed so they are hard coded here rather than dyanmic
       # - "traefik.http.routers.proxmox.rule=Host(`proxmox.lab`)"
