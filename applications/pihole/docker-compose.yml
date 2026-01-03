@@ -139,12 +139,12 @@ services:
       homepage.name: Proxmox
       homepage.icon: proxmox.png
       homepage.description: Virtualization host
-      homepage.href: https://proxmox.lab
+      homepage.href: http://proxmox.lab
       homepage.weight: 0
       homepage.widget.type: proxmox
-      homepage.widget.url: https://proxmox.lab
+      homepage.widget.url: http://proxmox.lab
 
-      traefik.http.routers.proxmox.rule=: Host(`proxmox.lab`)
+      traefik.http.routers.proxmox.rule: Host(`proxmox.lab`)
       traefik.http.routers.proxmox.entrypoints: web
       # traefik.http.routers.proxmox.tls: false
       # traefik.http.routers.proxmox.tls.certresolver: myresolver
@@ -172,7 +172,7 @@ services:
       traefik.http.routers.portainer.entrypoints: web
       # traefik.http.routers.portainer.tls: false
       # traefik.http.routers.portainer.tls.certresolver: myresolver
-      traefik.http.services.portainer.loadbalancer.server.url: https://host.docker.internal:9443
+      traefik.http.services.portainer.loadbalancer.server.url: https://192.168.51.218:9443
       traefik.http.services.portainer.loadbalancer.serverstransport: internal-https
     restart: unless-stopped
 
