@@ -124,6 +124,7 @@ services:
 
   proxmox-dummy:
     image: gcr.io/google_containers/pause:latest
+    container_name: proxmox_dummy
     labels:
       homepage.group: Network
       homepage.name: Proxmox
@@ -144,6 +145,7 @@ services:
 
   portainer-dummy:
     image: gcr.io/google_containers/pause:latest
+    container_name: portainer_dummy
     labels:
       homepage.group: Network
       homepage.name: Portainer
