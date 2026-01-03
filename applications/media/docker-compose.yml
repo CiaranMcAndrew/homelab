@@ -13,7 +13,7 @@ services:
       homepage.widget.type: jellyfin
       homepage.widget.url: https://jellyfin.lab
 
-      traefik.enable=true
+      traefik.enable: true
       traefik.http.routers.jellyfin.rule=: Host(`jellyfin.lab`)
       traefik.http.routers.jellyfin.entrypoints: web
       traefik.http.routers.jellyfin.tls: true
