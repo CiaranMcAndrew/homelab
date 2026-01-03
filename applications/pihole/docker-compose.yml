@@ -98,6 +98,7 @@ services:
       # - "traefik.http.routers.dashboard.tls=true"
       # - "traefik.http.routers.dashboard.tls.certresolver=myresolver"
       - "traefik.http.routers.dashboard.service=api@internal"
+      - traefik.http.serverstransports.internal-https.insecureskipverify=true
 
       # Homepage 
       - homepage.group=Network
@@ -139,9 +140,10 @@ services:
 
       traefik.http.routers.proxmox.rule=: Host(`proxmox.lab`)
       traefik.http.routers.proxmox.entrypoints: web
-      traefik.http.routers.proxmox.tls: true
-      traefik.http.routers.proxmox.tls.certresolver: myresolver
+      # traefik.http.routers.proxmox.tls: false
+      # traefik.http.routers.proxmox.tls.certresolver: myresolver
       traefik.http.services.proxmox.loadbalancer.server.url: https://192.168.51.225:8006
+      traefik.http.services.proxmox.loadbalancer.serverstransport: internal-https
 
     restart: unless-stopped
 
@@ -162,9 +164,10 @@ services:
 
       traefik.http.routers.portainer.rule=: Host(`portainer.lab`)
       traefik.http.routers.portainer.entrypoints: web
-      traefik.http.routers.portainer.tls: false
+      # traefik.http.routers.portainer.tls: false
       # traefik.http.routers.portainer.tls.certresolver: myresolver
       traefik.http.services.portainer.loadbalancer.server.url: http://host.docker.internal:9000
+      traefik.http.services.portainer.loadbalancer.serverstransport: internal-https
     restart: unless-stopped
 
   pihole:
@@ -242,7 +245,6 @@ volumes:
   pihole-data:
   letsencrypt-data:
   homepage-data:
-
 
 networks:
   default:
