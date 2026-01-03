@@ -104,7 +104,7 @@ services:
       - "traefik.http.routers.dashboard.service=api@internal"
 
       # Internal HTTPS transport (for services using HTTPS backend)
-      - traefik.http.serverstransports.internal-https.insecureskipverify=true
+      - "traefik.http.serverstransports.internal-https.insecureskipverify=true"
 
       # Homepage 
       - homepage.group=Network
