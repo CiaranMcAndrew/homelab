@@ -112,6 +112,16 @@ services:
       # - "traefik.http.services.proxmox.loadbalancer.server.url=https://192.168.51.225:8006"
       # - "traefik.http.services.proxmox.loadbalancer.serverstransport=proxmox-transport"
       # - "traefik.http.serverstransports.proxmox-transport.insecureskipverify=true"
+
+      # Homepage 
+      - homepage.group=Network
+      - homepage.name=Traefik
+      - homepage.icon=traefik.png
+      - homepage.href=/traefik
+      - homepage.description=Reverse proxy and load balancer
+      - homepage.weight=0
+      - homepage.widget.type=traefik
+      - homepage.widget.url=http://traefik.lab
     ports:
       - "80:80"
       - "8080:8080"
