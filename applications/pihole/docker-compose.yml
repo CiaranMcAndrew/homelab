@@ -179,7 +179,7 @@ services:
       # Homepage 
       - homepage.group=Network
       - homepage.name=Pi-hole
-      - homepage.icon=pihole.png
+      - homepage.icon=pi-hole.png
       - homepage.href=/pihole
       - homepage.description=Network wide ad-blocking via Pi-hole
       - homepage.weight=0
