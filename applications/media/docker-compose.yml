@@ -29,3 +29,7 @@ services:
 networks:
   traefik-network:
     external: true
+
+volumes:
+  jellyfin-data:
+    external: true
