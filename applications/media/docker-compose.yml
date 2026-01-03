@@ -26,6 +26,8 @@ services:
       - "1900:1900/udp"
     volumes:
       - jellyfin-data:/data
+    env_file:
+      - /opt/homelab/.env
 networks:
   traefik-network:
     external: true

@@ -13,6 +13,7 @@
         hosts: docker_hosts
         cacheable: yes  # Optional: cache across plays
 
+- import_playbook: transfer-secrets.yml
 - import_playbook: install-docker.yml
 - import_playbook: deploy-portainer.yml
 - import_playbook: disable-systemd-resolved.yml
