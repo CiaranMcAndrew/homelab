@@ -199,7 +199,7 @@ services:
     #   [sh, -c, "cp -n /app/config/tpl/*.yaml /app/config && node server.js"]
     labels:
       - traefik.enable=true
-      - traefik.http.routers.pihole.entrypoints=web
+      - traefik.http.routers.homepage.entrypoints=web
       - traefik.http.routers.homepage.rule=Host(`home.lab`)
       - traefik.http.routers.homepage.tls=${USE_TLS:-false}
       # - traefik.http.routers.homepage.tls.certresolver=${TLS_RESOLVER:-myresolver}
