@@ -98,20 +98,6 @@ services:
       # - "traefik.http.routers.dashboard.tls=true"
       # - "traefik.http.routers.dashboard.tls.certresolver=myresolver"
       - "traefik.http.routers.dashboard.service=api@internal"
-      
-      # Portainer settings - externally managed so they are hard coded here rather than dyanmic
-      - "traefik.http.routers.portainer.rule=Host(`portainer.lab`)"
-      - "traefik.http.routers.portainer.entrypoints=web"
-      - "traefik.http.services.portainer.loadbalancer.server.url=http://192.168.51.218:9000"
-
-      # Proxmox settings - externally managed so they are hard coded here rather than dyanmic
-      # - "traefik.http.routers.proxmox.rule=Host(`proxmox.lab`)"
-      # - "traefik.http.routers.proxmox.entrypoints=web"
-      # - "traefik.http.routers.proxmox.tls=true"
-      # - "traefik.http.routers.proxmox.tls.certresolver=myresolver"
-      # - "traefik.http.services.proxmox.loadbalancer.server.url=https://192.168.51.225:8006"
-      # - "traefik.http.services.proxmox.loadbalancer.serverstransport=proxmox-transport"
-      # - "traefik.http.serverstransports.proxmox-transport.insecureskipverify=true"
 
       # Homepage 
       - homepage.group=Network
@@ -154,6 +140,27 @@ services:
       traefik.http.routers.proxmox.tls.certresolver: myresolver
       traefik.http.services.proxmox.loadbalancer.server.url: https://192.168.51.225:8006
 
+    restart: unless-stopped
+
+  portainer-dummy:
+    image: gcr.io/google_containers/pause:latest
+    labels:
+      homepage.group: Network
+      homepage.name: Portainer
+      homepage.icon: portainer.png
+      homepage.description: Container management interface
+      homepage.href: https://portainer.lab
+      homepage.weight: 0
+      homepage.widget.type: portainer
+      homepage.widget.url: https://portainer.lab
+      homepage.widget.env: 1
+      homepage.widget.key: mykey
+
+      traefik.http.routers.portainer.rule=: Host(`portainer.lab`)
+      traefik.http.routers.portainer.entrypoints: web
+      traefik.http.routers.portainer.tls: false
+      # traefik.http.routers.portainer.tls.certresolver: myresolver
+      traefik.http.services.portainer.loadbalancer.server.url: https://192.168.51.218:9000
     restart: unless-stopped
 
   pihole:
