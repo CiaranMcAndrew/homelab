@@ -7,7 +7,6 @@
     memory: true
     disk:
       - /
-      - /data
 
 - search:
     provider: {{HOMEPAGE_VAR_SEARCH_PROVIDER}}

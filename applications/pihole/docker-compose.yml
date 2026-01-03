@@ -136,6 +136,17 @@ services:
       - traefik.http.routers.pihole.tls=${USE_TLS:-false}
       # - traefik.http.routers.pihole.tls.certresolver=${TLS_RESOLVER:-myresolver}
       - traefik.http.services.pihole.loadbalancer.server.port=8444
+
+      # Homepage 
+      - homepage.group=Network
+      - homepage.name=Pi-hole
+      - homepage.icon=pihole.png
+      - homepage.href=/pihole
+      - homepage.description=Network wide ad-blocking via Pi-hole
+      - homepage.weight=0
+      - homepage.widget.type=pihole
+      - homepage.widget.url=http://pihole.lab
+      - homepage.widget.key=${PIHOLE_WEBPASSWORD}
     environment:
       TZ: 'Europe/London'
       PIHOLE_DNS_: '1.1.1.1;1.0.0.1'
