@@ -136,6 +136,26 @@ services:
       interval: 1m
       retries: 10
 
+  proxmox-dummy:
+    image: gcr.io/google_containers/pause:latest
+    labels:
+      homepage.group: Network
+      homepage.name: Proxmox
+      homepage.icon: proxmox.png
+      homepage.description: Virtualization host
+      homepage.href: https://proxmox.lab
+      homepage.weight: 0
+      homepage.widget.type: proxmox
+      homepage.widget.url: https://proxmox.lab
+
+      traefik.http.routers.proxmox.rule=: Host(`proxmox.lab`)
+      traefik.http.routers.proxmox.entrypoints: web
+      traefik.http.routers.proxmox.tls: true
+      traefik.http.routers.proxmox.tls.certresolver: myresolver
+      traefik.http.services.proxmox.loadbalancer.server.url: https://192.168.51.225:8006
+
+    restart: unless-stopped
+
   pihole:
     container_name: pihole
     image: pihole/pihole:latest
