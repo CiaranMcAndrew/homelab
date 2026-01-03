@@ -1,5 +1,72 @@
 services:
 
+
+  code-fetch:
+    container_name: code-fetch
+    image: alpine/git:latest
+    volumes:
+      - /home/ciaran/git/:/git/:rw
+      - 'pihole-data:/etc/pihole'
+      - 'homepage-data:/etc/homepage'
+    environment:
+      GIT_REPO: 'https://github.com/CiaranMcAndrew/homelab.git'
+      GIT_BRANCH: 'main'
+      SLEEP_INTERVAL: '300'
+    entrypoint: ['/bin/sh', '-c']
+    command: >
+      "
+        set -e;
+        if [ ! -d /git/homelab/.git ]; then
+          echo 'Cloning repository...';
+          git clone --branch \"$$GIT_BRANCH\" \"$$GIT_REPO\" /git/homelab;
+        fi;
+        cd /git/homelab;
+        while true; do
+          echo 'Pulling latest changes...';
+          git pull origin \"$$GIT_BRANCH\";
+
+          echo 'Copying pihole configuration data...';
+
+          # Base paths
+          GIT_DIR="/git/homelab/applications/pihole/config"
+          PIHOLE_DIR="/etc/pihole"
+
+          # List of files (without .list extension)
+          for list in custom adlists; do
+              src=\"$$GIT_DIR/$$list.list\"
+              dst=\"$$PIHOLE_DIR/$$list.list\"
+              echo \"Copying $$src to $$dst\"
+
+              # Check if the file exists in git repo
+              if [ -f \"$$src\" ]; then
+                  echo \"Copying $$src -> $$dst\"
+                  cp -v \"$$src\" \"$$dst\"
+
+                  # Ensure Pi-hole can read/write
+                  chown 1000:1000 \"$$dst\"
+                  chmod 644 \"$$dst\"
+              else
+                  echo \"Warning: $$src does not exist, skipping\"
+              fi
+          done
+
+          echo 'Copying homepage configuration data...';
+          cp -vr /git/homelab/applications/homepage/config/* /etc/homepage/
+
+
+          echo 'Sleeping for $$SLEEP_INTERVAL seconds...';
+          sleep $$SLEEP_INTERVAL;        
+        done
+        
+      "
+    healthcheck:
+      test: ["CMD-SHELL", "test -d /git/homelab/.git"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+
   traefik:
     image: ghcr.io/traefik/traefik:3.6
     container_name: traefik
@@ -60,68 +127,6 @@ services:
       interval: 1m
       retries: 10
 
-  code-fetch:
-    container_name: code-fetch
-    image: alpine/git:latest
-    volumes:
-      - /home/ciaran/git/:/git/:rw
-      - 'pihole-data:/etc/pihole'
-    environment:
-      GIT_REPO: 'https://github.com/CiaranMcAndrew/homelab.git'
-      GIT_BRANCH: 'main'
-      SLEEP_INTERVAL: '300'
-    entrypoint: ['/bin/sh', '-c']
-    command: >
-      "
-        set -e;
-        if [ ! -d /git/homelab/.git ]; then
-          echo 'Cloning repository...';
-          git clone --branch \"$$GIT_BRANCH\" \"$$GIT_REPO\" /git/homelab;
-        fi;
-        cd /git/homelab;
-        while true; do
-          echo 'Pulling latest changes...';
-          git pull origin \"$$GIT_BRANCH\";
-
-          echo 'Copying pihole configuration data...';
-
-          # Base paths
-          GIT_DIR="/git/homelab/applications/pihole/config"
-          PIHOLE_DIR="/etc/pihole"
-
-          # List of files (without .list extension)
-          for list in custom adlists; do
-              src=\"$$GIT_DIR/$$list.list\"
-              dst=\"$$PIHOLE_DIR/$$list.list\"
-              echo \"Copying $$src to $$dst\"
-
-              # Check if the file exists in git repo
-              if [ -f \"$$src\" ]; then
-                  echo \"Copying $$src -> $$dst\"
-                  cp -v \"$$src\" \"$$dst\"
-
-                  # Ensure Pi-hole can read/write
-                  chown 1000:1000 \"$$dst\"
-                  chmod 644 \"$$dst\"
-              else
-                  echo \"Warning: $$src does not exist, skipping\"
-              fi
-          done
-
-
-          echo 'Sleeping for $$SLEEP_INTERVAL seconds...';
-          sleep $$SLEEP_INTERVAL;        
-        done
-        
-      "
-    healthcheck:
-      test: ["CMD-SHELL", "test -d /git/homelab/.git"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 30s
-    restart: unless-stopped
-
   pihole:
     container_name: pihole
     image: pihole/pihole:latest
@@ -166,7 +171,7 @@ services:
       - HOMEPAGE_VAR_WEATHER_UNIT=metric
       - HOMEPAGE_ALLOWED_HOSTS=* #${HOSTNAME},localhost:7080
     volumes:
-      # - ${CONFIG_ROOT:-.}/homepage:/app/config
+      - homepage-data:/app/config
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # - ${DATA_ROOT}:/data
     restart: always
@@ -183,6 +188,7 @@ volumes:
   git-data:
   pihole-data:
   letsencrypt-data:
+  homepage-data:
 
 
 networks:
