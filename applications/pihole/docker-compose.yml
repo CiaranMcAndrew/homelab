@@ -144,6 +144,7 @@ services:
       homepage.widget.type: proxmox
       homepage.widget.url: http://proxmox.lab
 
+      traefik.enable: true
       traefik.http.routers.proxmox.rule: Host(`proxmox.lab`)
       traefik.http.routers.proxmox.entrypoints: web
       # traefik.http.routers.proxmox.tls: false
