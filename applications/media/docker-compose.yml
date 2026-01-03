@@ -2,7 +2,7 @@ services:
 
   jellyfin:
     image: gcr.io/google_containers/pause:latest
-    container_name: proxmox_dummy
+    container_name: jellyfin
     labels:
       homepage.group: Media
       homepage.name: jellyfin
