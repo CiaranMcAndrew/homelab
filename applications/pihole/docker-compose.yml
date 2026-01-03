@@ -135,7 +135,7 @@ services:
       TZ: 'Europe/London'
       PIHOLE_DNS_: '1.1.1.1;1.0.0.1'
       DNSMASQ_LISTENING: 'all'
-      FTLCONF_webserver_port: '80801,[::]:8081,8444os,[::]:8444os'
+      FTLCONF_webserver_port: '8081,[::]:8081,8444os,[::]:8444os'
       
     network_mode: "host"
     volumes:
