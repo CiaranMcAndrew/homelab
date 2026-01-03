@@ -8,10 +8,10 @@ services:
       homepage.name: jellyfin
       homepage.icon: jellyfin.png
       homepage.description: Media server
-      homepage.href: https://jellyfin.lab
+      homepage.href: http://jellyfin.lab
       homepage.weight: 0
       homepage.widget.type: jellyfin
-      homepage.widget.url: https://jellyfin.lab
+      homepage.widget.url: http://jellyfin.lab
 
       traefik.enable: true
       traefik.http.routers.jellyfin.rule=: Host(`jellyfin.lab`)
