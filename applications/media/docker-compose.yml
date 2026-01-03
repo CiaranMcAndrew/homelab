@@ -1,0 +1,20 @@
+services:
+
+  jellyfin:
+    image: gcr.io/google_containers/pause:latest
+    container_name: proxmox_dummy
+    labels:
+      homepage.group: Media
+      homepage.name: jellyfin
+      homepage.icon: jellyfin.png
+      homepage.description: Media server
+      homepage.href: https://jellyfin.lab
+      homepage.weight: 0
+      homepage.widget.type: jellyfin
+      homepage.widget.url: https://jellyfin.lab
+
+      traefik.http.routers.jellyfin.rule=: Host(`jellyfin.lab`)
+      traefik.http.routers.jellyfin.entrypoints: web
+      traefik.http.routers.jellyfin.tls: true
+      traefik.http.routers.jellyfin.tls.certresolver: myresolver
+      traefik.http.services.jellyfin.loadbalancer.server.url: https://192.168.51.218:8096
