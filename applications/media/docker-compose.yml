@@ -16,9 +16,9 @@ services:
       traefik.enable: true
       traefik.http.routers.jellyfin.rule=: Host(`jellyfin.lab`)
       traefik.http.routers.jellyfin.entrypoints: web
-      traefik.http.routers.jellyfin.tls: true
-      traefik.http.routers.jellyfin.tls.certresolver: myresolver
-      traefik.http.services.jellyfin.loadbalancer.server.url: https://192.168.51.218:8096
+      # traefik.http.routers.jellyfin.tls: true
+      # traefik.http.routers.jellyfin.tls.certresolver: myresolver
+      traefik.http.services.jellyfin.loadbalancer.server.url: http://192.168.51.218:8096
     ports:
       - "7359:7359/udp"
       - "1900:1900/udp"
