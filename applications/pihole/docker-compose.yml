@@ -168,6 +168,7 @@ services:
       homepage.widget.env: 1
       homepage.widget.key: mykey
 
+      traefik.enable: true
       traefik.http.routers.portainer.rule: Host(`portainer.lab`)
       traefik.http.routers.portainer.entrypoints: web
       # traefik.http.routers.portainer.tls: false
