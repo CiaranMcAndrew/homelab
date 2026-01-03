@@ -27,6 +27,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - portainer_data:/data
+      - /opt/homelab:/opt/homelab:ro
       # - portainer_secrets:/run/secrets:ro
     ports:
       - "${PORTAINER_HTTP_PORT:-9000}:9000"
