@@ -41,7 +41,17 @@ variable "sonarr_api_key" {
   sensitive = true
 }
 
+variable "radarr_api_key" {
+  type = string
+  sensitive = true  
+}
+
 variable "jellyfin_api_key" {
+  type = string
+  sensitive = true
+}
+
+variable "pihole_webpassword" {
   type = string
   sensitive = true
 }

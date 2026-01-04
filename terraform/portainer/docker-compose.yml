@@ -18,5 +18,7 @@ services:
       TF_VAR_portainer_admin_password: "${PORTAINER_ADMIN_PASSWORD}"
       TF_VAR_gitlab_token: "${GITLAB_TOKEN}"
       TF_VAR_sonarr_api_key: "${SONARR_API_KEY}"
+      TF_VAR_radarr_api_key: "${RADARR_API_KEY}"
       TF_VAR_jellyfin_api_key: "${JELLYFIN_API_KEY}"
+      TF_VAR_pihole_webpassword: "${PIHOLE_WEBPASSWORD}"
       TF_CLI_ARGS: "-var-file=environment/${TF_ENV:-homelab}.tfvars"  

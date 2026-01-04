@@ -3,14 +3,17 @@ locals {
         {
             name      = "pihole"
             file_path = "applications/pihole/docker-compose.yml"
+            env_vars = {
+                PIHOLE_WEBPASSWORD = var.pihole_webpassword
+            }   
         },
         {
             name      = "media"
             file_path = "applications/media/docker-compose.yml"
             env_vars = {
                 SONARR_API_KEY = var.sonarr_api_key
-                JELLYFIN_API_KEY = var.jellyfin_api_key
-            }   
+                RADARR_API_KEY = var.radarr_api_key
+                JELLYFIN_API_KEY = var.jellyfin_api_key            }   
         }
     ]
 }
