@@ -45,6 +45,8 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.sonarr.rule: Host(`sonarr.lab`)
+      traefik.http.routers.sonarr.entrypoints: web
+      # traefik.http.services.jellyfin.loadbalancer.server.url: http://jellyfin:8096
       traefik.http.services.sonarr.loadbalancer.server.port: 8989
       homepage.group: Media
       homepage.name: Sonarr
