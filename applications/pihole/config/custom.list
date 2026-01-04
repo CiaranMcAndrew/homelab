@@ -1,3 +1,7 @@
-# config/custom.list
-# Local DNS records (format: IP domain)
-192.168.51.225 lab.home
+# homelab/applications/pihole/config/custom.list
+192.168.51.218 traefik.lab
+192.168.51.218 pihole.lab
+192.168.51.218 home.lab
+192.168.51.218 portainer.lab
+192.168.51.218 jellyfin.lab
+192.168.51.225 proxmox.lab
