@@ -1,0 +1,20 @@
+services:
+  portainer-terraform-job:
+    build:
+      context: ../../agents/terraform
+      dockerfile: Dockerfile
+    restart: no
+    container_name: terraform_agent
+    network_mode: host
+    volumes:
+      - ./:/terraform:ro
+      - ../../.env:/.env:ro
+      - /root/.ssh/id_rsa.pub:/root/.ssh/id_rsa.pub:ro
+      - /etc/resolv.conf:/etc/resolv.conf:ro
+    working_dir: /terraform
+    env_file: 
+      - .env
+    environment:
+      TF_VAR_portainer_admin_password: "${PORTAINER_ADMIN_PASSWORD}"
+      TF_VAR_gitlab_token: "${GITLAB_TOKEN}"
+      TF_CLI_ARGS: "-var-file=environment/${TF_ENV:-homelab}.tfvars"  
