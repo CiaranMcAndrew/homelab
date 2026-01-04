@@ -28,6 +28,36 @@ services:
       - jellyfin-data:/data
     env_file:
       - /opt/homelab/.env
+
+sonarr:
+    image: lscr.io/linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TIMEZONE}
+    volumes:
+      - sonarr-config:/config
+      - sonarr-data:/data
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://127.0.0.1:8989/ping"]
+      interval: 1m
+      retries: 10
+    labels:
+      traefik.enable: true
+      traefik.http.routers.sonarr.rule: Host(`sonarr.lab`)
+      traefik.http.services.sonarr.loadbalancer.server.port: 8989
+      homepage.group: Media
+      homepage.name: Sonarr
+      homepage.icon: sonarr.png
+      homepage.href: /sonarr
+      homepage.description: Series management
+      homepage.weight: 0
+      homepage.widget.type: sonarr
+      homepage.widget.url: http://sonarr.lab
+      homepage.widget.key: ${SONARR_API_KEY}
+
 networks:
   traefik-network:
     external: true
@@ -35,3 +65,5 @@ networks:
 volumes:
   jellyfin-data:
     external: true
+  sonarr-data:
+  sonarr-config
