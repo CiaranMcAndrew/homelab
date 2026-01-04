@@ -57,6 +57,8 @@ services:
       homepage.widget.type: sonarr
       homepage.widget.url: http://sonarr.lab
       homepage.widget.key: ${SONARR_API_KEY}
+    networks:
+      - traefik-network
 
 networks:
   traefik-network:
