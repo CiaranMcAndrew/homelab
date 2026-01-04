@@ -178,23 +178,22 @@ services:
     container_name: pihole
     image: pihole/pihole:latest
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.pihole.rule=Host(`pihole.lab`)
-      - traefik.http.routers.pihole.entrypoints=web
-      - traefik.http.routers.pihole.tls=${USE_TLS:-false}
-      # - traefik.http.routers.pihole.tls.certresolver=${TLS_RESOLVER:-myresolver}
-      - traefik.http.services.pihole.loadbalancer.server.url=http://host.docker.internal:8081
+      traefik.enable: true
+      traefik.http.routers.pihole.rule: Host(`pihole.lab`)
+      traefik.http.routers.pihole.entrypoints: web
+      traefik.http.services.pihole.loadbalancer.server.url: http://host.docker.internal:8081
 
       # Homepage 
-      - homepage.group=Network
-      - homepage.name=Pi-hole
-      - homepage.icon=pi-hole.png
-      - homepage.href=http://pihole.lab/admin
-      - homepage.description=Network wide ad-blocking via Pi-hole
-      - homepage.weight=0
-      - homepage.widget.type=pihole
-      - homepage.widget.url=http://pihole.lab
-      - homepage.widget.key=${PIHOLE_WEBPASSWORD}
+      homepage.group: Network
+      homepage.name: Pi-hole
+      homepage.icon: pi-hole.png
+      homepage.href: http://pihole.lab/admin
+      homepage.description: Network wide ad-blocking via Pi-hole
+      homepage.weight: 0
+      homepage.widget.type: pihole
+      homepage.widget.version: 6
+      homepage.widget.url: http://pihole.lab
+      homepage.widget.key: ${PIHOLE_WEBPASSWORD}
     environment:
       TZ: 'Europe/London'
       PIHOLE_DNS_: '1.1.1.1;1.0.0.1'
