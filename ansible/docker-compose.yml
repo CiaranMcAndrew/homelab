@@ -1,0 +1,20 @@
+services:
+  ansible-job:
+    build:
+      context: ../agents/ansible
+      dockerfile: Dockerfile
+    restart: no
+    container_name: ansible_agent
+    network_mode: host
+    volumes:
+      - .:/ansible:ro
+      - ../applications:/applications:ro
+      - ../.env:/.env:ro
+      - ~/.ssh:/root/.ssh:ro
+      - /etc/resolv.conf:/etc/resolv.conf:ro
+      - ../agents/ansible/entrypoint.sh:/entrypoint.sh
+    entrypoint: /entrypoint.sh
+    working_dir: /ansible
+    env_file: ../.env
+    environment:
+      - PLAYBOOK=/ansible/playbook.yml

@@ -12,6 +12,7 @@ services:
       homepage.weight: 0
       homepage.widget.type: jellyfin
       homepage.widget.url: http://jellyfin.lab
+      homepage.widget.key: ${JELLYFIN_API_KEY}
 
       traefik.enable: true
       traefik.http.routers.jellyfin.rule: Host(`jellyfin.lab`)
@@ -23,6 +24,7 @@ services:
       - "7359:7359/udp"
       - "1900:1900/udp"
     volumes:
+      - jellyfin-config:/config
       - jellyfin-data:/data
     env_file:
       - /opt/homelab/.env
@@ -65,7 +67,8 @@ networks:
     external: true
 
 volumes:
+  jellyfin-config:
   jellyfin-data:
     external: true
-  sonarr-data:
   sonarr-config:
+  sonarr-data:

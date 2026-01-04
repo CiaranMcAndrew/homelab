@@ -7,6 +7,10 @@ locals {
         {
             name      = "media"
             file_path = "applications/media/docker-compose.yml"
+            env_vars = {
+                SONARR_API_KEY = var.sonarr_api_key
+                JELLYFIN_API_KEY = var.jellyfin_api_key
+            }   
         }
     ]
 }
@@ -26,4 +30,13 @@ resource "portainer_stack" "stack" {
     update_interval           = "5m"                       # Auto-update interval
     pull_image                = true                       # Pull latest image on update
     force_update              = true                       # Prune services not in compose file
+
+    # Dynamic block for optional env vars
+    dynamic "env" {
+    for_each = try(each.value.env_vars, {})
+    content {
+      name  = env.key
+      value = env.value
+    }
+  }
 }

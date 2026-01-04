@@ -35,3 +35,13 @@ variable "portainer_endpoint_id" {
   type = number
   default = "3"
 }
+
+variable "sonarr_api_key" {
+  type = string
+  sensitive = true
+}
+
+variable "jellyfin_api_key" {
+  type = string
+  sensitive = true
+}
