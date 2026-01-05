@@ -86,15 +86,22 @@ services:
         PASSWORD_HASH=$$(python3 <<'PYSCRIPT'
         import hashlib
         import os
+        import base64
         
         password = os.environ['QBITTORRENT_PASSWORD']
-        salt = b'@'
+        salt = os.random(16)
         iterations = 100000
         
-        hash_bytes = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'), salt, iterations)
-        hash_hex = hash_bytes.hex()
+        dk = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'), salt, iterations)
         
-        print(f'@ByteArray({hash_hex})')
+        # Base64 encode the salt and hash
+        encoded_salt = base64.b64encode(salt).decode()
+        encoded_hash = base64.b64encode(dk).decode()
+
+        # Format for qBittorrent
+        qbittorrent_hash = f'@ByteArray({encoded_salt}:{encoded_hash})'
+
+        print(f'@ByteArray({qbittorrent_hash})')
         PYSCRIPT
         )
         
