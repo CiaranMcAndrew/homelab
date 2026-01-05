@@ -21,7 +21,7 @@ services:
       homepage.href: http://wireguard.lab
       homepage.weight: 0
       homepage.widget.type: wgeasy
-      homepage.widget.url: http://wireguard.lab
+      homepage.widget.url: http://wireguard:51821
       homepage.widget.version: 2
       homepage.widget.password: ${WIREGUARD_PASSWORD}
       traefik.enable: true
