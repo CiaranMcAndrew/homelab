@@ -91,7 +91,8 @@ services:
       homepage.widget.type: radarr
       homepage.widget.url: http://radarr.lab
       homepage.widget.key: ${RADARR_API_KEY}
-
+    networks:
+      - traefik-network
 networks:
   traefik-network:
     external: true
