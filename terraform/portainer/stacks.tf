@@ -41,7 +41,7 @@ resource "portainer_stack" "stack" {
     endpoint_id               = var.portainer_endpoint_id
     repository_url            = var.github_repo_url
     repository_reference_name = try(each.value.ref, "refs/heads/main")
-    file_path_in_repository   = "docker-compose.yml"
+    file_path_in_repository   = each.value.file_path
 
     # Optional GitOps enhancements:
     stack_webhook             = true                      # Enables GitOps webhook

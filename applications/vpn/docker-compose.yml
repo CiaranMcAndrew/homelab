@@ -98,6 +98,7 @@ networks:
   traefik-network:
     external: true
   wg:
+    name: wg
     labels:
       com.example.description: "Wireguard network"
     driver: bridge
