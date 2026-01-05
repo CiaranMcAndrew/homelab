@@ -17,11 +17,18 @@ locals {
                 JELLYFIN_API_KEY = var.jellyfin_api_key            }   
         },
         {
-            name      = "network"
-            file_path = "applications/network/docker-compose.yml"
+            name      = "vpn"
+            file_path = "applications/vpn/docker-compose.yml"
             env_vars = {
                 WIREGUARD_PASSWORD = var.wireguard_password
             }
+        },
+        {
+            name      = "torrent"
+            file_path = "applications/torrent/docker-compose.yml"
+            env_vars = {
+                QBITTORRENT_PASSWORD = var.qbittorrent_password
+            }   
         }
     ]
 }

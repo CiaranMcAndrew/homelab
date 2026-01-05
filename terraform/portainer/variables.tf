@@ -65,3 +65,8 @@ variable "wireguard_password" {
   type = string
   sensitive = true
 }
+
+variable "qbittorrent_password" {
+  type = string
+  sensitive = true
+}

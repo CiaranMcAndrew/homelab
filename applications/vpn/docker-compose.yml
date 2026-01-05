@@ -50,41 +50,49 @@ services:
       - net.ipv6.conf.all.forwarding=1
       - net.ipv6.conf.default.forwarding=1
 
-  qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:latest
-    container_name: qbittorrent
+  gluetun:
+    image: qmcgaw/gluetun:latest
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Etc/UTC
-      - WEBUI_PORT=8080
-      - TORRENTING_PORT=6881
-    labels:
-      homepage.group: Network
-      homepage.name: qBittorrent
-      homepage.icon: qbittorrent.png
-      homepage.description: Torrent client
-      homepage.href: http://qbittorrent.lab
-      homepage.weight: 1
-      homepage.widget.type: qbittorrent
-      homepage.widget.url: http://qbittorrent.lab
-      homepage.widget.username: "admin"
-      homepage.widget.password: "${QBITTORRENT_PASSWORD}"
-      traefik.enable: true
-      traefik.http.routers.qbittorrent.rule: Host(`qbittorrent.lab`)
-      traefik.http.routers.qbittorrent.entrypoints: web
-      traefik.http.services.qbittorrent.loadbalancer.server.port: 8080
-    volumes:
-      - /path/to/qbittorrent/appdata:/config
-      - /path/to/downloads:/downloads #optional
+      - VPN_SERVICE_PROVIDER=protonvpn
+      - VPN_TYPE=wireguard
+
+      # From Proton config
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - WIREGUARD_PUBLIC_KEY=${WIREGUARD_PUBLIC_KEY}
+      - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESSES}
+      - WIREGUARD_ENDPOINT_IP=${WIREGUARD_ENDPOINT_IP}
+      - WIREGUARD_ENDPOINT_PORT=${WIREGUARD_ENDPOINT_PORT}
+
+      # Required by Proton
+      - PROTONVPN_USERNAME=${PROTON_USERNAME}
+      - PROTONVPN_PASSWORD=${PROTON_PASSWORD}
+
+      # Strongly recommended
+      - FIREWALL=on
     ports:
-      - 8085:8080
+      - 8085:8080     # qBittorrent UI
       - 6881:6881
       - 6881:6881/udp
-    restart: unless-stopped
     networks:
-      traefik-network: {}
-      wg: {}
+      - traefik-network
+    labels:
+      homepage.group: Network
+      homepage.name: gluetun
+      homepage.icon: gluetun.png
+      homepage.description: VPN Client
+      homepage.href: http://gluetun.lab
+      homepage.weight: 2
+      homepage.widget.type: gluetun
+      homepage.widget.url: http://gluetun:8080
+      traefik.enable: true
+      traefik.http.routers.gluetun.rule: Host(`gluetun.lab`)
+      traefik.http.routers.gluetun.entrypoints: web
+      traefik.http.services.gluetun.loadbalancer.server.port: 8080
 
 networks:
   traefik-network:
