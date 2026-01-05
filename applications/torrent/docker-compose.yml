@@ -134,7 +134,9 @@ services:
         fi
          
         echo "qBittorrent configuration updated successfully."
-
+        echo "Confirming config"
+        cat $$CONFIG_FILE
+        
     restart: "no"
 
 networks:
