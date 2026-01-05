@@ -74,10 +74,6 @@ services:
 
       # Strongly recommended
       - FIREWALL=on
-    ports:
-      - 8085:8080     # qBittorrent UI
-      - 6881:6881
-      - 6881:6881/udp
     networks:
       - traefik-network
     labels:
