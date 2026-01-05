@@ -107,15 +107,18 @@ services:
         
         # Use sed to modify existing config
         # Remove existing WebUI username/password if present
+        echo "Removing existing WebUI username/password if present..."
         sed -i '/^WebUI\\Username=/d' "$$CONFIG_FILE"
         sed -i '/^WebUI\\Password_PBKDF2=/d' "$$CONFIG_FILE"
         
         # Add/modify WebUI settings in [Preferences] section
         if grep -q '^\[Preferences\]' "$$CONFIG_FILE"; then
+          echo "Modifying existing [Preferences] section..."
           # Insert after [Preferences] line
           sed -i "/^\[Preferences\]/a WebUI\\\\Username=$$USERNAME" "$$CONFIG_FILE"
           sed -i "/^WebUI\\\\Username=/a WebUI\\\\Password_PBKDF2=\"$$PASSWORD_HASH\"" "$$CONFIG_FILE"
         else
+          echo "Creating [Preferences] section..."
           # Create [Preferences] section if it doesn't exist
           echo "" >> "$$CONFIG_FILE"
           echo "[Preferences]" >> "$$CONFIG_FILE"
