@@ -68,6 +68,8 @@ services:
       homepage.weight: 1
       homepage.widget.type: qbittorrent
       homepage.widget.url: http://qbittorrent.lab
+      homepage.widget.username: "admin"
+      homepage.widget.password: "${QBITTORRENT_PASSWORD}"
       traefik.enable: true
       traefik.http.routers.qBittorrent.rule: Host(`qBittorrent.lab`)
       traefik.http.routers.qBittorrent.entrypoints: web
@@ -76,7 +78,7 @@ services:
       - /path/to/qbittorrent/appdata:/config
       - /path/to/downloads:/downloads #optional
     ports:
-      - 8080:8080
+      - 8085:8080
       - 6881:6881
       - 6881:6881/udp
     restart: unless-stopped
