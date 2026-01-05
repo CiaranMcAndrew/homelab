@@ -17,6 +17,7 @@ services:
       - INIT_USERNAME=Ciaran
       - INIT_PASSWORD=${WIREGUARD_PASSWORD}
       - INIT_HOST=wireguard.lab
+      - INIT_PORT=51821
     labels:
       homepage.group: Network
       homepage.name: wireguard
