@@ -101,7 +101,7 @@ services:
         # Format for qBittorrent
         qbittorrent_hash = f'@ByteArray({encoded_salt}:{encoded_hash})'
 
-        print(f'@ByteArray({qbittorrent_hash})')
+        print(qbittorrent_hash)
         PYSCRIPT
         )
         
@@ -136,7 +136,7 @@ services:
         echo "qBittorrent configuration updated successfully."
         echo "Confirming config"
         cat $$CONFIG_FILE
-        
+
     restart: "no"
 
 networks:
