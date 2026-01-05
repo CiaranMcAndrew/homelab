@@ -13,7 +13,12 @@ locals {
             env_vars = {
                 SONARR_API_KEY = var.sonarr_api_key
                 RADARR_API_KEY = var.radarr_api_key
+                PROWLARR_API_KEY = var.prowlarr_api_key
                 JELLYFIN_API_KEY = var.jellyfin_api_key            }   
+        },
+        {
+            name      = "network"
+            file_path = "applications/network/docker-compose.yml"
         }
     ]
 }

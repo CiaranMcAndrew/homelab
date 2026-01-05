@@ -1,0 +1,49 @@
+services:
+
+  wireguard:
+    image: lscr.io/linuxserver/wireguard:latest
+    container_name: wireguard
+    labels:
+      homepage.group: Network
+      homepage.name: WireGuard
+      homepage.icon: wireguard.png
+      homepage.description: VPN Server
+      homepage.href: http://wireguard.lab
+      homepage.weight: 0
+      homepage.widget.type: wireguard
+      homepage.widget.url: http://wireguard.lab
+
+      traefik.enable: true
+      traefik.http.routers.wireguard.rule: Host(`wireguard.lab`)
+      traefik.http.routers.wireguard.entrypoints: web
+      traefik.http.services.wireguard.loadbalancer.server.url: http://wg-portal:8888
+    networks:
+      - traefik-network
+
+  wg-portal:
+    image: wgportal/wg-portal:v2
+    container_name: wg-portal
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+    cap_add:
+      - NET_ADMIN
+    # Use host network mode for WireGuard and the UI. Ensure that access to the UI is properly secured.
+    # network_mode: "host"
+    volumes:
+      # left side is the host path, right side is the container path
+      - /etc/wireguard:/etc/wireguard
+      - wg-data:/app/data
+      - wg-config:/app/config
+    networks:
+      - traefik-network
+
+networks:
+  traefik-network:
+    external: true
+
+volumes:
+  wg-data:
+  wg-config:

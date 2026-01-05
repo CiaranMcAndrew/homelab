@@ -46,6 +46,11 @@ variable "radarr_api_key" {
   sensitive = true  
 }
 
+variable "prowlarr_api_key" {
+  type = string
+  sensitive = true
+}
+
 variable "jellyfin_api_key" {
   type = string
   sensitive = true
