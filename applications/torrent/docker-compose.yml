@@ -37,6 +37,19 @@ services:
       traefik-network: {}
       wg: {}
 
+qbittorrent-init:
+    image: python:3.9-alpine
+    container_name: qbittorrent-init
+    volumes:
+      - qbittorrent-config:/config
+      - ./:/scripts:ro
+    environment:
+      QBITTORRENT_USERNAME: "${QBITTORRENT_USERNAME:-admin}"
+      QBITTORRENT_PASSWORD: "${QBITTORRENT_PASSWORD}"
+    # entrypoint: ["/bin/sh", "/scripts/entrypoint.sh"]
+    command: ["ls", "-lah", "/scripts"]
+    restart: "no"
+
 networks:
   traefik-network:
     external: true
