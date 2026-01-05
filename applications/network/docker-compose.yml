@@ -90,6 +90,8 @@ networks:
   traefik-network:
     external: true
   wg:
+    labels:
+      com.example.description: "Wireguard network"
     driver: bridge
     enable_ipv6: true
     ipam:
