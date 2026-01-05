@@ -126,7 +126,7 @@ services:
           echo "WebUI\\Password_PBKDF2=\"$$PASSWORD_HASH\"" >> "$$CONFIG_FILE"
         fi
          
-
+        echo "qBittorrent configuration updated successfully."
 
     restart: "no"
 
