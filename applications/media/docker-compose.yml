@@ -53,7 +53,7 @@ services:
       homepage.group: Media
       homepage.name: Sonarr
       homepage.icon: sonarr.png
-      homepage.href: https://sonarr.lab
+      homepage.href: http://sonarr.lab
       homepage.description: Series management
       homepage.weight: 0
       homepage.widget.type: sonarr
