@@ -26,8 +26,8 @@ services:
       traefik.http.routers.qbittorrent.entrypoints: web
       traefik.http.services.qbittorrent.loadbalancer.server.port: 8080
     volumes:
-      - /path/to/qbittorrent/appdata:/config
-      - /path/to/downloads:/downloads #optional
+      - qbittorrent-config:/config
+      - qbittorrent-downloads:/downloads #optional
     ports:
       - 8085:8080
       - 6881:6881
@@ -42,3 +42,7 @@ networks:
     external: true
   wg:
     external: true
+
+volumes:
+  qbittorrent-config:
+  qbittorrent-downloads:
