@@ -57,6 +57,8 @@ services:
       - net.ipv6.conf.default.forwarding=1
 
 networks:
+  traefik-network:
+    external: true
   wg:
     driver: bridge
     enable_ipv6: true
