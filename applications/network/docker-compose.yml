@@ -18,6 +18,7 @@ services:
       - INIT_PASSWORD=${WIREGUARD_PASSWORD}
       - INIT_HOST=wireguard.lab
       - INIT_PORT=51821
+      - INSECURE=true
     labels:
       homepage.group: Network
       homepage.name: wireguard
