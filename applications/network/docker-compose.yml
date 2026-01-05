@@ -29,7 +29,7 @@ services:
       traefik.http.routers.wireguard.entrypoints: web
       traefik.http.services.wireguard.loadbalancer.server.port: 51821
     networks:
-      wg:
+      wireguard-network:
         ipv4_address: 10.42.42.42
         ipv6_address: fdcc:ad94:bacf:61a3::2a
       traefik-network: {}
@@ -84,12 +84,13 @@ services:
     restart: unless-stopped
     networks:
       traefik-network: {}
-      wg: {}
+      wireguard-network: {}
 
 networks:
   traefik-network:
     external: true
   wg:
+    name: wireguard-network
     labels:
       com.example.description: "Wireguard network"
     driver: bridge
