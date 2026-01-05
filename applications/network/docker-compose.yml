@@ -39,7 +39,7 @@ services:
       homepage.description: VPN Server
       homepage.href: http://wireguard.lab
       homepage.weight: 0
-      homepage.widget.type: wg-easy
+      homepage.widget.type: wgeasy
       homepage.widget.url: http://wireguard.lab
       homepage.widget.version: 2
       homepage.widget.password: ${WIREGUARD_PASSWORD}
