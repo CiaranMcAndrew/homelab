@@ -93,11 +93,8 @@ services:
       homepage.widget.key: ${RADARR_API_KEY}
     networks:
       - traefik-network
-networks:
-  traefik-network:
-    external: true
 
-prowlarr:
+  prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
     environment:
@@ -126,6 +123,10 @@ prowlarr:
       homepage.widget.key: ${PROWLARR_API_KEY}
     networks:
       - traefik-network
+
+networks:
+  traefik-network:
+    external: true
 
 volumes:
   jellyfin-config:
