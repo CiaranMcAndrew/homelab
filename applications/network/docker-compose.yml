@@ -84,9 +84,8 @@ services:
     restart: unless-stopped
     networks:
       traefik-network: {}
-      wg: 
-        ipv4_address: 10.42.42.1
-
+      wg: {}
+      
 networks:
   traefik-network:
     external: true
