@@ -42,12 +42,89 @@ services:
     container_name: qbittorrent-init
     volumes:
       - qbittorrent-config:/config
-      - ./:/scripts:ro
     environment:
       QBITTORRENT_USERNAME: "${QBITTORRENT_USERNAME:-admin}"
       QBITTORRENT_PASSWORD: "${QBITTORRENT_PASSWORD}"
-    # entrypoint: ["/bin/sh", "/scripts/entrypoint.sh"]
-    command: ["ls", "-lah", "/scripts"]
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        set -e
+        
+        echo "=== qBittorrent Init Container ==="
+        
+        CONFIG_FILE="/config/qBittorrent/qBittorrent.conf"
+        
+        # Wait for config file to be created
+        echo "Waiting for config file to be generated..."
+        for i in $$(seq 1 60); do
+          if [ -f "$$CONFIG_FILE" ]; then
+            echo "Config file found!"
+            break
+          fi
+          echo "Waiting... ($$i/60)"
+          sleep 2
+        done
+        
+        if [ ! -f "$$CONFIG_FILE" ]; then
+          echo "ERROR: Config file was not created after 120 seconds"
+          exit 1
+        fi
+
+        # Give it a moment to fully write the config
+        echo "Waiting a few more seconds to ensure config is ready..."
+        sleep 5
+
+        echo "Customizing qBittorrent configuration..."
+        
+        # Generate password hash
+        if [ -z "$$QBITTORRENT_PASSWORD" ]; then
+          echo "ERROR: QBITTORRENT_PASSWORD not set"
+          exit 1
+        fi
+        
+        echo "Generating password hash..."
+        PASSWORD_HASH=$$(python3 <<'PYSCRIPT'
+        import hashlib
+        import os
+        
+        password = os.environ['QBITTORRENT_PASSWORD']
+        salt = b'@'
+        iterations = 100000
+        
+        hash_bytes = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'), salt, iterations)
+        hash_hex = hash_bytes.hex()
+        
+        print(f'@ByteArray({hash_hex})')
+        PYSCRIPT
+        )
+        
+        USERNAME="$${QBITTORRENT_USERNAME:-admin}"
+        
+        echo "Modifying config file with sed..."
+        
+        # Backup original
+        cp "$$CONFIG_FILE" "$${CONFIG_FILE}.backup"
+        
+        # Use sed to modify existing config
+        # Remove existing WebUI username/password if present
+        sed -i '/^WebUI\\Username=/d' "$$CONFIG_FILE"
+        sed -i '/^WebUI\\Password_PBKDF2=/d' "$$CONFIG_FILE"
+        
+        # Add/modify WebUI settings in [Preferences] section
+        if grep -q '^\[Preferences\]' "$$CONFIG_FILE"; then
+          # Insert after [Preferences] line
+          sed -i "/^\[Preferences\]/a WebUI\\\\Username=$$USERNAME" "$$CONFIG_FILE"
+          sed -i "/^WebUI\\\\Username=/a WebUI\\\\Password_PBKDF2=$$PASSWORD_HASH" "$$CONFIG_FILE"
+        else
+          # Create [Preferences] section if it doesn't exist
+          echo "" >> "$$CONFIG_FILE"
+          echo "[Preferences]" >> "$$CONFIG_FILE"
+          echo "WebUI\\Username=$$USERNAME" >> "$$CONFIG_FILE"
+          echo "WebUI\\Password_PBKDF2=$$PASSWORD_HASH" >> "$$CONFIG_FILE"
+        fi
+         
+
+
     restart: "no"
 
 networks:
