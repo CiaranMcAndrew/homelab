@@ -97,6 +97,36 @@ networks:
   traefik-network:
     external: true
 
+prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=100
+      - TZ=${TIMEZONE}
+    volumes:
+      - prowlarr-config:/config
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://127.0.0.1:9696/ping"]
+      interval: 1m
+      retries: 10
+    labels:
+      traefik.enable: true
+      traefik.http.routers.prowlarr.rule: Host(`prowlarr.lab`)
+      traefik.http.services.prowlarr.loadbalancer.server.port: 9696
+      homepage.group: Media
+      homepage.name: Prowlarr
+      homepage.icon: prowlarr.png
+      homepage.href: http://prowlarr.lab
+      homepage.description: Indexers management
+      homepage.weight: 1
+      homepage.widget.type: prowlarr
+      homepage.widget.url: http://prowlarr.lab
+      homepage.widget.key: ${PROWLARR_API_KEY}
+    networks:
+      - traefik-network
+
 volumes:
   jellyfin-config:
   jellyfin-data:
@@ -104,4 +134,6 @@ volumes:
   sonarr-config:
   sonarr-data:
   radarr-config:
-  radarr-data:  
+  radarr-data:
+  prowlarr-config:
+  prowlarr-data:
