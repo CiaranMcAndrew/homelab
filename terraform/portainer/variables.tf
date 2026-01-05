@@ -60,3 +60,8 @@ variable "pihole_webpassword" {
   type = string
   sensitive = true
 }
+
+variable "wireguard_password" {
+  type = string
+  sensitive = true
+}

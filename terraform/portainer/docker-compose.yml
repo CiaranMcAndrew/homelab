@@ -22,4 +22,5 @@ services:
       TF_VAR_prowlarr_api_key: "${PROWLARR_API_KEY}"
       TF_VAR_jellyfin_api_key: "${JELLYFIN_API_KEY}"
       TF_VAR_pihole_webpassword: "${PIHOLE_WEBPASSWORD}"
+      TF_VAR_wireguard_password: "${WIREGUARD_PASSWORD}"
       TF_CLI_ARGS: "-var-file=environment/${TF_ENV:-homelab}.tfvars"  

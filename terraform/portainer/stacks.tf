@@ -19,6 +19,9 @@ locals {
         {
             name      = "network"
             file_path = "applications/network/docker-compose.yml"
+            env_vars = {
+                WIREGUARD_PASSWORD = var.wireguard_password
+            }
         }
     ]
 }
