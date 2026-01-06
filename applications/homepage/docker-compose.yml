@@ -68,11 +68,30 @@ services:
       traefik.http.services.portainer.loadbalancer.serverstransport: "internal-https"
     restart: unless-stopped
 
+  myspeed:
+    image:  germannewsmaker/myspeed:latest
+    container_name: myspeed
+    environment:
+      - TZ=Europe/London
+    volumes:
+      - myspeed-data:/data
+    restart: always
+    labels:
+      traefik.enable: true
+      traefik.http.routers.myspeed.entrypoints: web
+      traefik.http.routers.myspeed.rule: Host(`myspeed.lab`)
+      traefik.http.services.myspeed.loadbalancer.server.port: 5216
+      homepage.widget.type: myspeed
+      homepage.widget.url: http://myspeed.lab
+    networks:
+      - traefik-network
 volumes:
   git-data:
     external: true
   homepage-data:
     name: homepage-data
+  myspeed-data:
+    name: myspeed-data
 
 networks:
   traefik-network:
