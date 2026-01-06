@@ -81,6 +81,12 @@ services:
       traefik.http.routers.myspeed.entrypoints: web
       traefik.http.routers.myspeed.rule: Host(`myspeed.lab`)
       traefik.http.services.myspeed.loadbalancer.server.port: 5216
+      homepage.group: Network
+      homepage.name: My Speed
+      homepage.icon: myspeed.png
+      homepage.description: Internet speed monitor
+      homepage.href: http://myspeed.lab
+      homepage.weight: 0
       homepage.widget.type: myspeed
       homepage.widget.url: http://myspeed.lab
     networks:
