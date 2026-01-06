@@ -25,7 +25,7 @@ services:
     networks:
       - traefik-network
 
-proxmox-dummy:
+  proxmox-dummy:
     image: gcr.io/google_containers/pause:latest
     container_name: proxmox_dummy
     labels:
@@ -46,7 +46,6 @@ proxmox-dummy:
       traefik.http.routers.proxmox.entrypoints: web
       traefik.http.services.proxmox.loadbalancer.server.url: "https://192.168.51.225:8006"
       traefik.http.services.proxmox.loadbalancer.serverstransport: "internal-https"
-
     restart: unless-stopped
 
   portainer-dummy:
