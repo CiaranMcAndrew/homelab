@@ -18,27 +18,16 @@ services:
       homepage.href: http://qbittorrent.lab
       homepage.weight: 1
       homepage.widget.type: qbittorrent
-      homepage.widget.url: http://qbittorrent:8080
+      homepage.widget.url: http://gluetun:8085
       homepage.widget.username: "admin"
       homepage.widget.password: "${QBITTORRENT_PASSWORD}"
-      # traefik.enable: true
-      # traefik.http.routers.qbittorrent.rule: Host(`qbittorrent.lab`)
-      # traefik.http.routers.qbittorrent.entrypoints: web
-      # traefik.http.services.qbittorrent.loadbalancer.server.port: 8080
     volumes:
       - qbittorrent-config:/config
       - qbittorrent-downloads:/downloads #optional
-    # ports:
-    #   # - 8085:8080
-    #   - 6881:6881
-    #   - 6881:6881/udp
     restart: unless-stopped
     network_mode: "service:gluetun"
     depends_on:
       - gluetun
-    # networks:
-    #   traefik-network: {}
-    #   wg: {}
 
   qbittorrent-init:
     image: python:3.9-alpine
@@ -173,7 +162,7 @@ services:
       homepage.href: http://gluetun.lab
       homepage.weight: 2
       homepage.widget.type: gluetun
-      homepage.widget.url: http://gluetun:8080
+      homepage.widget.url: http://gluetun:8000
       
       traefik.enable: true
       traefik.http.routers.gluetun.rule: Host(`gluetun.lab`)
