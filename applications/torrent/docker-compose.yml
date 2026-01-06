@@ -164,12 +164,17 @@ services:
       homepage.weight: 2
       homepage.widget.type: gluetun
       homepage.widget.url: http://gluetun:8000
+
       traefik.enable: true
+      
       traefik.http.routers.gluetun.rule: Host(`gluetun.lab`)
       traefik.http.routers.gluetun.entrypoints: web
+      traefik.http.routers.gluetun.service: gluetun
       traefik.http.services.gluetun.loadbalancer.server.port: 8000
+
       traefik.http.routers.qbit.rule: Host(`qbit.lab`)
       traefik.http.routers.qbit.entrypoints: web
+      traefik.http.routers.qbit.service: qbittorrent
       traefik.http.services.qbit.loadbalancer.server.port: 8085
 
 networks:
