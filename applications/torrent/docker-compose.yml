@@ -174,7 +174,7 @@ services:
 
       traefik.http.routers.qbittorrent.rule: Host(`qbit.lab`)
       traefik.http.routers.qbittorrent.entrypoints: web
-      traefik.http.routers.qbittorrent.service: qbittorrent
+      traefik.http.routers.qbittorrent.service: gluetun
       traefik.http.services.qbittorrent.loadbalancer.server.port: 8085
 
 networks:
