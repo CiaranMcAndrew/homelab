@@ -5,6 +5,8 @@ locals {
             file_path = "applications/homepage/docker-compose.yml"
             env_vars = {
                 PORTAINER_API_KEY = var.portainer_api_key
+                PROXMOX_TOKEN_ID = var.proxmox_token_id
+                PROXMOX_TOKEN_SECRET = var.proxmox_token_secret
             }
         },
         {

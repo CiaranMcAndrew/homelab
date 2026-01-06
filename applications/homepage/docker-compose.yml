@@ -4,15 +4,15 @@ services:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
     environment:
-      - HOMEPAGE_VAR_TITLE="Home Lab"
-      - HOMEPAGE_VAR_SEARCH_PROVIDER="google"
-      - HOMEPAGE_VAR_HEADER_STYLE=boxed
-      - HOMEPAGE_VAR_WEATHER_CITY="Manchester"
-      - HOMEPAGE_VAR_WEATHER_LAT="53.4808"
-      - HOMEPAGE_VAR_WEATHER_LONG="-2.2426"
-      - HOMEPAGE_VAR_WEATHER_TIME="Europe/London"
-      - HOMEPAGE_VAR_WEATHER_UNIT=metric
-      - HOMEPAGE_ALLOWED_HOSTS=*
+      HOMEPAGE_VAR_TITLE: "Home Lab"
+      HOMEPAGE_VAR_SEARCH_PROVIDER: "google"
+      HOMEPAGE_VAR_HEADER_STYLE: "boxed"
+      HOMEPAGE_VAR_WEATHER_CITY: "Manchester"
+      HOMEPAGE_VAR_WEATHER_LAT: "53.4808"
+      HOMEPAGE_VAR_WEATHER_LONG: "-2.2426"
+      HOMEPAGE_VAR_WEATHER_TIME: "Europe/London"
+      HOMEPAGE_VAR_WEATHER_UNIT: "metric"
+      HOMEPAGE_ALLOWED_HOSTS: "*"
     volumes:
       - homepage-data:/app/config
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -29,7 +29,7 @@ services:
     image: gcr.io/google_containers/pause:latest
     container_name: proxmox_dummy
     labels:
-      homepage.group: Network
+      homepage.group: Infrastructure
       homepage.name: Proxmox
       homepage.icon: proxmox.png
       homepage.description: Virtualization host
@@ -53,7 +53,7 @@ services:
     image: gcr.io/google_containers/pause:latest
     container_name: portainer_dummy
     labels:
-      homepage.group: Network
+      homepage.group: Infrastructure
       homepage.name: Portainer
       homepage.icon: portainer.png
       homepage.description: Container management interface
@@ -94,6 +94,7 @@ services:
       homepage.widget.url: http://myspeed.lab
     networks:
       - traefik-network
+
 volumes:
   git-data:
     external: true

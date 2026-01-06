@@ -28,4 +28,6 @@ services:
       TF_VAR_proton_username: "${PROTON_USERNAME}"
       TF_VAR_proton_password: "${PROTON_PASSWORD}"
       TF_VAR_qbittorrent_password: "${QBITTORRENT_PASSWORD}"
+      TF_VAR_proxmox_token_id: "${PROXMOX_TOKEN_ID}"
+      TF_VAR_proxmox_token_secret: "${PROXMOX_TOKEN_SECRET}"
       TF_CLI_ARGS: "-var-file=environment/${TF_ENV:-homelab}.tfvars"  

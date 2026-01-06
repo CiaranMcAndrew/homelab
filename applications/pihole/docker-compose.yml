@@ -1,6 +1,5 @@
 services:
 
-
   code-fetch:
     container_name: code-fetch
     image: alpine/git:latest
