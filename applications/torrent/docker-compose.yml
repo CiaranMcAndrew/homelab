@@ -21,10 +21,10 @@ services:
       homepage.widget.url: http://qbittorrent:8080
       homepage.widget.username: "admin"
       homepage.widget.password: "${QBITTORRENT_PASSWORD}"
-      traefik.enable: true
-      traefik.http.routers.qbittorrent.rule: Host(`qbittorrent.lab`)
-      traefik.http.routers.qbittorrent.entrypoints: web
-      traefik.http.services.qbittorrent.loadbalancer.server.port: 8080
+      # traefik.enable: true
+      # traefik.http.routers.qbittorrent.rule: Host(`qbittorrent.lab`)
+      # traefik.http.routers.qbittorrent.entrypoints: web
+      # traefik.http.services.qbittorrent.loadbalancer.server.port: 8080
     volumes:
       - qbittorrent-config:/config
       - qbittorrent-downloads:/downloads #optional
