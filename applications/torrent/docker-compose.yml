@@ -172,10 +172,10 @@ services:
       traefik.http.routers.gluetun.service: gluetun
       traefik.http.services.gluetun.loadbalancer.server.port: 8000
 
-      traefik.http.routers.qbit.rule: Host(`qbit.lab`)
-      traefik.http.routers.qbit.entrypoints: web
-      traefik.http.routers.qbit.service: qbit
-      traefik.http.services.qbit.loadbalancer.server.port: 8085
+      traefik.http.routers.qbittorrent.rule: Host(`qbit.lab`)
+      traefik.http.routers.qbittorrent.entrypoints: web
+      traefik.http.routers.qbittorrent.service: qbittorrent
+      traefik.http.services.qbittorrent.loadbalancer.server.port: 8085
 
 networks:
   traefik-network:
