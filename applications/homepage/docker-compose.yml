@@ -40,6 +40,7 @@ services:
       homepage.widget.username: ${PROXMOX_TOKEN_ID}
       homepage.widget.password: ${PROXMOX_TOKEN_SECRET}
       homepage.widget.node: lab
+      homepage.widget.insecure: true
 
       traefik.enable: true
       traefik.http.routers.proxmox.rule: Host(`proxmox.lab`)
