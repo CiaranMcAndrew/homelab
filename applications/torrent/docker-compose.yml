@@ -6,7 +6,7 @@ services:
       PUID: 1000
       PGID: 1000
       TZ: Etc/UTC
-      WEBUI_PORT: 8080
+      WEBUI_PORT: 8085
       TORRENTING_PORT: 6881
       DOCKER_MODS: ghcr.io/gabe565/linuxserver-mod-vuetorrent
       QBIT_INTERFACE: ${QBITTORRENT_NETWORK_INTERFACE:-eth0}
@@ -163,7 +163,7 @@ services:
     networks:
       - traefik-network
     ports:
-      - "8085:8080"   # qBittorrent UI
+      - "8085:8085"   # qBittorrent UI
       - "8000:8000"   # Gluetun UI
     labels:
       homepage.group: Network
@@ -174,13 +174,15 @@ services:
       homepage.weight: 2
       homepage.widget.type: gluetun
       homepage.widget.url: http://gluetun:8080
+      
       traefik.enable: true
       traefik.http.routers.gluetun.rule: Host(`gluetun.lab`)
       traefik.http.routers.gluetun.entrypoints: web
       traefik.http.services.gluetun.loadbalancer.server.port: 8000
-      traefik.http.routers.qbittorrent.rule: Host(`qbittorrent.lab`)
-      traefik.http.routers.qbittorrent.entrypoints: web
-      traefik.http.services.qbittorrent.loadbalancer.server.port: 8085
+      
+      traefik.http.routers.qbit.rule: Host(`qbittorrent.lab`)
+      traefik.http.routers.qbit.entrypoints: web
+      traefik.http.services.qbit.loadbalancer.server.port: 8085
 
 networks:
   traefik-network:
