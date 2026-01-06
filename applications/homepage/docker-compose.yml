@@ -12,6 +12,7 @@ services:
       - HOMEPAGE_VAR_WEATHER_LONG="-2.2426"
       - HOMEPAGE_VAR_WEATHER_TIME="Europe/London"
       - HOMEPAGE_VAR_WEATHER_UNIT=metric
+      - HOMEPAGE_ALLOWED_HOSTS=*
     volumes:
       - homepage-data:/app/config
       - /var/run/docker.sock:/var/run/docker.sock:ro
