@@ -57,7 +57,7 @@ services:
       homepage.href: http://portainer.lab
       homepage.weight: 0
       homepage.widget.type: portainer
-      homepage.widget.url: http://portainer.lab
+      homepage.widget.url: "https://192.168.51.218:9443"
       homepage.widget.env: 1
       homepage.widget.key: ${PORTAINER_API_KEY}
 
