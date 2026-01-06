@@ -142,7 +142,7 @@ services:
 
     restart: "no"
 
-gluetun:
+  gluetun:
     image: qmcgaw/gluetun:latest
     container_name: gluetun
     cap_add:
