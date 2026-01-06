@@ -131,49 +131,6 @@ services:
       interval: 1m
       retries: 10
 
-  # proxmox-dummy:
-  #   image: gcr.io/google_containers/pause:latest
-  #   container_name: proxmox_dummy
-  #   labels:
-  #     homepage.group: Network
-  #     homepage.name: Proxmox
-  #     homepage.icon: proxmox.png
-  #     homepage.description: Virtualization host
-  #     homepage.href: http://proxmox.lab
-  #     homepage.weight: 0
-  #     homepage.widget.type: proxmox
-  #     homepage.widget.url: http://proxmox.lab
-
-  #     traefik.enable: true
-  #     traefik.http.routers.proxmox.rule: Host(`proxmox.lab`)
-  #     traefik.http.routers.proxmox.entrypoints: web
-  #     traefik.http.services.proxmox.loadbalancer.server.url: "https://192.168.51.225:8006"
-  #     traefik.http.services.proxmox.loadbalancer.serverstransport: "internal-https"
-
-  #   restart: unless-stopped
-
-  # portainer-dummy:
-  #   image: gcr.io/google_containers/pause:latest
-  #   container_name: portainer_dummy
-  #   labels:
-  #     homepage.group: Network
-  #     homepage.name: Portainer
-  #     homepage.icon: portainer.png
-  #     homepage.description: Container management interface
-  #     homepage.href: http://portainer.lab
-  #     homepage.weight: 0
-  #     homepage.widget.type: portainer
-  #     homepage.widget.url: http://portainer.lab
-  #     homepage.widget.env: 1
-  #     homepage.widget.key: mykey
-
-  #     traefik.enable: true
-  #     traefik.http.routers.portainer.rule: Host(`portainer.lab`)
-  #     traefik.http.routers.portainer.entrypoints: web
-  #     traefik.http.services.portainer.loadbalancer.server.url: "https://192.168.51.218:9443"
-  #     traefik.http.services.portainer.loadbalancer.serverstransport: "internal-https"
-  #   restart: unless-stopped
-
   pihole:
     container_name: pihole
     image: pihole/pihole:latest
@@ -212,36 +169,6 @@ services:
     dns:
       - 127.0.0.1
       - 1.1.1.1
-
-  homepage:
-    image: ghcr.io/gethomepage/homepage:latest
-    container_name: homepage
-    environment:
-      - HOMEPAGE_VAR_TITLE="Home Lab"
-      - HOMEPAGE_VAR_SEARCH_PROVIDER="google"
-      - HOMEPAGE_VAR_HEADER_STYLE=boxed
-      - HOMEPAGE_VAR_WEATHER_CITY="Manchester"
-      - HOMEPAGE_VAR_WEATHER_LAT="53.4808"
-      - HOMEPAGE_VAR_WEATHER_LONG="-2.2426"
-      - HOMEPAGE_VAR_WEATHER_TIME="Europe/London"
-      - HOMEPAGE_VAR_WEATHER_UNIT=metric
-      - HOMEPAGE_ALLOWED_HOSTS=* #${HOSTNAME},localhost:7080
-    volumes:
-      - homepage-data:/app/config
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      # - ${DATA_ROOT}:/data
-    restart: always
-    # command:
-    #   [sh, -c, "cp -n /app/config/tpl/*.yaml /app/config && node server.js"]
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.homepage.entrypoints=web
-      - traefik.http.routers.homepage.rule=Host(`home.lab`)
-      - traefik.http.routers.homepage.tls=${USE_TLS:-false}
-      # - traefik.http.routers.homepage.tls.certresolver=${TLS_RESOLVER:-myresolver}
-      - traefik.http.services.homepage.loadbalancer.server.port=3000
-    networks:
-      - traefik-network
 
 volumes:
   git-data:

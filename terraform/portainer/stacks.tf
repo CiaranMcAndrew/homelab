@@ -1,6 +1,10 @@
 locals {
     stacks = [
         {
+            name      = "homepage"
+            file_path = "applications/homepage/docker-compose.yml"
+        },
+        {
             name      = "pihole"
             file_path = "applications/pihole/docker-compose.yml"
             env_vars = {
