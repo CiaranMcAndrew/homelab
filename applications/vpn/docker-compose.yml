@@ -2,53 +2,53 @@ volumes:
   etc_wireguard:
 
 services:
-  wireguard:
-    image: ghcr.io/wg-easy/wg-easy:15
-    container_name: wireguard
-    restart: unless-stopped
-    environment:
-      - INIT_ENABLED=true
-      - INIT_USERNAME=Ciaran
-      - INIT_PASSWORD=${WIREGUARD_PASSWORD}
-      - INIT_HOST=wireguard.lab
-      - INIT_PORT=51821
-      - INSECURE=true
-    labels:
-      homepage.group: Network
-      homepage.name: wireguard
-      homepage.icon: wireguard.png
-      homepage.description: VPN Server
-      homepage.href: http://wireguard.lab
-      homepage.weight: 0
-      homepage.widget.type: wgeasy
-      homepage.widget.url: http://wireguard:51821
-      homepage.widget.version: 2
-      homepage.widget.password: ${WIREGUARD_PASSWORD}
-      traefik.enable: true
-      traefik.http.routers.wireguard.rule: Host(`wireguard.lab`)
-      traefik.http.routers.wireguard.entrypoints: web
-      traefik.http.services.wireguard.loadbalancer.server.port: 51821
-    networks:
-      wg:
-        ipv4_address: 10.42.42.42
-        ipv6_address: fdcc:ad94:bacf:61a3::2a
-      traefik-network: {}
-    volumes:
-      - etc_wireguard:/etc/wireguard
-      - /lib/modules:/lib/modules:ro
-    ports:
-      - "51820:51820/udp"
-      - "51821:51821/tcp"
-    cap_add:
-      - NET_ADMIN
-      - SYS_MODULE
-      # - NET_RAW # ⚠️ Uncomment if using Podman
-    sysctls:
-      - net.ipv4.ip_forward=1
-      - net.ipv4.conf.all.src_valid_mark=1
-      - net.ipv6.conf.all.disable_ipv6=0
-      - net.ipv6.conf.all.forwarding=1
-      - net.ipv6.conf.default.forwarding=1
+  # wireguard:
+  #   image: ghcr.io/wg-easy/wg-easy:15
+  #   container_name: wireguard
+  #   restart: unless-stopped
+  #   environment:
+  #     - INIT_ENABLED=true
+  #     - INIT_USERNAME=Ciaran
+  #     - INIT_PASSWORD=${WIREGUARD_PASSWORD}
+  #     - INIT_HOST=wireguard.lab
+  #     - INIT_PORT=51821
+  #     - INSECURE=true
+  #   labels:
+  #     homepage.group: Network
+  #     homepage.name: wireguard
+  #     homepage.icon: wireguard.png
+  #     homepage.description: VPN Server
+  #     homepage.href: http://wireguard.lab
+  #     homepage.weight: 0
+  #     homepage.widget.type: wgeasy
+  #     homepage.widget.url: http://wireguard:51821
+  #     homepage.widget.version: 2
+  #     homepage.widget.password: ${WIREGUARD_PASSWORD}
+  #     traefik.enable: true
+  #     traefik.http.routers.wireguard.rule: Host(`wireguard.lab`)
+  #     traefik.http.routers.wireguard.entrypoints: web
+  #     traefik.http.services.wireguard.loadbalancer.server.port: 51821
+  #   networks:
+  #     wg:
+  #       ipv4_address: 10.42.42.42
+  #       ipv6_address: fdcc:ad94:bacf:61a3::2a
+  #     traefik-network: {}
+  #   volumes:
+  #     - etc_wireguard:/etc/wireguard
+  #     - /lib/modules:/lib/modules:ro
+  #   ports:
+  #     - "51820:51820/udp"
+  #     - "51821:51821/tcp"
+  #   cap_add:
+  #     - NET_ADMIN
+  #     - SYS_MODULE
+  #     # - NET_RAW # ⚠️ Uncomment if using Podman
+  #   sysctls:
+  #     - net.ipv4.ip_forward=1
+  #     - net.ipv4.conf.all.src_valid_mark=1
+  #     - net.ipv6.conf.all.disable_ipv6=0
+  #     - net.ipv6.conf.all.forwarding=1
+  #     - net.ipv6.conf.default.forwarding=1
 
   gluetun:
     image: qmcgaw/gluetun:latest
@@ -63,10 +63,6 @@ services:
 
       # From Proton config
       - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
-      # - WIREGUARD_PUBLIC_KEY=${WIREGUARD_PUBLIC_KEY}
-      # - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESSES}
-      # - WIREGUARD_ENDPOINT_IP=${WIREGUARD_ENDPOINT_IP}
-      # - WIREGUARD_ENDPOINT_PORT=${WIREGUARD_ENDPOINT_PORT}
 
       # Required by Proton
       - PROTONVPN_USERNAME=${PROTON_USERNAME}
