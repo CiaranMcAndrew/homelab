@@ -3,6 +3,9 @@ locals {
         {
             name      = "homepage"
             file_path = "applications/homepage/docker-compose.yml"
+            env_vars = {
+                PORTAINER_API_KEY = var.portainer_api_key
+            }
         },
         {
             name      = "pihole"

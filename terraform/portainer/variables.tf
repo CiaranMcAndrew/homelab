@@ -36,6 +36,11 @@ variable "portainer_endpoint_id" {
   default = "3"
 }
 
+variable "portainer_api_key" {
+  type = string
+  sensitive = true
+}
+
 variable "sonarr_api_key" {
   type = string
   sensitive = true

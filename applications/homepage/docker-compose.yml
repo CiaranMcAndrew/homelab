@@ -46,27 +46,27 @@ services:
 
   #   restart: unless-stopped
 
-  # portainer-dummy:
-  #   image: gcr.io/google_containers/pause:latest
-  #   container_name: portainer_dummy
-  #   labels:
-  #     homepage.group: Network
-  #     homepage.name: Portainer
-  #     homepage.icon: portainer.png
-  #     homepage.description: Container management interface
-  #     homepage.href: http://portainer.lab
-  #     homepage.weight: 0
-  #     homepage.widget.type: portainer
-  #     homepage.widget.url: http://portainer.lab
-  #     homepage.widget.env: 1
-  #     homepage.widget.key: mykey
+  portainer-dummy:
+    image: gcr.io/google_containers/pause:latest
+    container_name: portainer_dummy
+    labels:
+      homepage.group: Network
+      homepage.name: Portainer
+      homepage.icon: portainer.png
+      homepage.description: Container management interface
+      homepage.href: http://portainer.lab
+      homepage.weight: 0
+      homepage.widget.type: portainer
+      homepage.widget.url: http://portainer.lab
+      homepage.widget.env: 1
+      homepage.widget.key: ${PORTAINER_API_KEY}
 
-  #     traefik.enable: true
-  #     traefik.http.routers.portainer.rule: Host(`portainer.lab`)
-  #     traefik.http.routers.portainer.entrypoints: web
-  #     traefik.http.services.portainer.loadbalancer.server.url: "https://192.168.51.218:9443"
-  #     traefik.http.services.portainer.loadbalancer.serverstransport: "internal-https"
-  #   restart: unless-stopped
+      traefik.enable: true
+      traefik.http.routers.portainer.rule: Host(`portainer.lab`)
+      traefik.http.routers.portainer.entrypoints: web
+      traefik.http.services.portainer.loadbalancer.server.url: "https://192.168.51.218:9443"
+      traefik.http.services.portainer.loadbalancer.serverstransport: "internal-https"
+    restart: unless-stopped
 
 volumes:
   git-data:
