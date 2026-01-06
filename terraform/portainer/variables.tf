@@ -66,6 +66,21 @@ variable "wireguard_password" {
   sensitive = true
 }
 
+variable "wireguard_private_key" {
+  type = string
+  sensitive = true  
+}
+
+variable "proton_username" {
+  type = string
+  sensitive = true
+}
+
+variable "proton_password" {
+  type = string
+  sensitive = true
+}
+
 variable "qbittorrent_password" {
   type = string
   sensitive = true

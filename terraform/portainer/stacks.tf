@@ -21,6 +21,9 @@ locals {
             file_path = "applications/vpn/docker-compose.yml"
             env_vars = {
                 WIREGUARD_PASSWORD = var.wireguard_password
+                WIREGUARD_PRIVATE_KEY = var.wireguard_private_key
+                PROTON_USERNAME = var.proton_username
+                PROTON_PASSWORD = var.proton_password
             }
         },
         {

@@ -23,5 +23,8 @@ services:
       TF_VAR_jellyfin_api_key: "${JELLYFIN_API_KEY}"
       TF_VAR_pihole_webpassword: "${PIHOLE_WEBPASSWORD}"
       TF_VAR_wireguard_password: "${WIREGUARD_PASSWORD}"
+      TF_VAR_wireguard_private_key: "${WIREGUARD_PRIVATE_KEY}"
+      TF_VAR_proton_username: "${PROTON_USERNAME}"
+      TF_VAR_proton_password: "${PROTON_PASSWORD}"
       TF_VAR_qbittorrent_password: "${QBITTORRENT_PASSWORD}"
       TF_CLI_ARGS: "-var-file=environment/${TF_ENV:-homelab}.tfvars"  
