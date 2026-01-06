@@ -26,20 +26,14 @@ locals {
                 JELLYFIN_API_KEY = var.jellyfin_api_key            }   
         },
         {
-            name      = "vpn"
-            file_path = "applications/vpn/docker-compose.yml"
-            env_vars = {
-                WIREGUARD_PASSWORD = var.wireguard_password
-                WIREGUARD_PRIVATE_KEY = var.wireguard_private_key
-                PROTON_USERNAME = var.proton_username
-                PROTON_PASSWORD = var.proton_password
-            }
-        },
-        {
             name      = "torrent"
             file_path = "applications/torrent/docker-compose.yml"
             env_vars = {
                 QBITTORRENT_PASSWORD = var.qbittorrent_password
+                WIREGUARD_PASSWORD = var.wireguard_password
+                WIREGUARD_PRIVATE_KEY = var.wireguard_private_key
+                PROTON_USERNAME = var.proton_username
+                PROTON_PASSWORD = var.proton_password
             }   
         }
     ]

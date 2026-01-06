@@ -50,42 +50,7 @@ services:
   #     - net.ipv6.conf.all.forwarding=1
   #     - net.ipv6.conf.default.forwarding=1
 
-  gluetun:
-    image: qmcgaw/gluetun:latest
-    container_name: gluetun
-    cap_add:
-      - NET_ADMIN
-    devices:
-      - /dev/net/tun:/dev/net/tun
-    environment:
-      - VPN_SERVICE_PROVIDER=protonvpn
-      - VPN_TYPE=wireguard
-
-      # From Proton config
-      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
-
-      # Required by Proton
-      - PROTONVPN_USERNAME=${PROTON_USERNAME}
-      - PROTONVPN_PASSWORD=${PROTON_PASSWORD}
-
-      # Strongly recommended
-      - FIREWALL=on
-      - SERVER_COUNTRIES=Albania
-    networks:
-      - traefik-network
-    labels:
-      homepage.group: Network
-      homepage.name: gluetun
-      homepage.icon: gluetun.png
-      homepage.description: VPN Client
-      homepage.href: http://gluetun.lab
-      homepage.weight: 2
-      homepage.widget.type: gluetun
-      homepage.widget.url: http://gluetun:8080
-      traefik.enable: true
-      traefik.http.routers.gluetun.rule: Host(`gluetun.lab`)
-      traefik.http.routers.gluetun.entrypoints: web
-      traefik.http.services.gluetun.loadbalancer.server.port: 8080
+  
 
 networks:
   traefik-network:

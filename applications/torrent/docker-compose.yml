@@ -28,14 +28,17 @@ services:
     volumes:
       - qbittorrent-config:/config
       - qbittorrent-downloads:/downloads #optional
-    ports:
-      # - 8085:8080
-      - 6881:6881
-      - 6881:6881/udp
+    # ports:
+    #   # - 8085:8080
+    #   - 6881:6881
+    #   - 6881:6881/udp
     restart: unless-stopped
-    networks:
-      traefik-network: {}
-      wg: {}
+    network_mode: "service:gluetun"
+    depends_on:
+      - gluetun
+    # networks:
+    #   traefik-network: {}
+    #   wg: {}
 
   qbittorrent-init:
     image: python:3.9-alpine
@@ -139,10 +142,48 @@ services:
 
     restart: "no"
 
+gluetun:
+    image: qmcgaw/gluetun:latest
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      VPN_SERVICE_PROVIDER: protonvpn
+      VPN_TYPE: wireguard
+      # From Proton config
+      WIREGUARD_PRIVATE_KEY: ${WIREGUARD_PRIVATE_KEY}
+      # Required by Proton
+      PROTONVPN_USERNAME: ${PROTON_USERNAME}
+      PROTONVPN_PASSWORD: ${PROTON_PASSWORD}
+      # Strongly recommended
+      FIREWALL: on
+      SERVER_COUNTRIES: Albania
+    networks:
+      - traefik-network
+    ports:
+      - "8080:8080"   # qBittorrent UI
+      - "8000:8000"   # Gluetun UI
+    labels:
+      homepage.group: Network
+      homepage.name: gluetun
+      homepage.icon: gluetun.png
+      homepage.description: VPN Client
+      homepage.href: http://gluetun.lab
+      homepage.weight: 2
+      homepage.widget.type: gluetun
+      homepage.widget.url: http://gluetun:8080
+      traefik.enable: true
+      traefik.http.routers.gluetun.rule: Host(`gluetun.lab`)
+      traefik.http.routers.gluetun.entrypoints: web
+      traefik.http.services.gluetun.loadbalancer.server.port: 8000
+      traefik.http.routers.qbittorrent.rule: Host(`qbittorrent.lab`)
+      traefik.http.routers.qbittorrent.entrypoints: web
+      traefik.http.services.qbittorrent.loadbalancer.server.port: 8080
+
 networks:
   traefik-network:
-    external: true
-  wg:
     external: true
 
 volumes:
