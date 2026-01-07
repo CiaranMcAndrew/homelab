@@ -22,6 +22,9 @@ layout:
   Infrastructure:
     style: row
     columns: 2
+  Bookmarks:
+    style: row
+    columns: 4
 
 quicklaunch:
   searchDescriptions: true
