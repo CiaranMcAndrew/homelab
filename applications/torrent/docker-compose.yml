@@ -11,7 +11,7 @@ services:
       DOCKER_MODS: ghcr.io/gabe565/linuxserver-mod-vuetorrent
       QBIT_INTERFACE: ${QBITTORRENT_NETWORK_INTERFACE:-eth0}
     labels:
-      homepage.group: Indexers
+      homepage.group: Torrent
       homepage.name: qBittorrent
       homepage.icon: qbittorrent.png
       homepage.description: Torrent client
