@@ -13,6 +13,7 @@ services:
       homepage.widget.type: jellyfin
       homepage.widget.url: http://jellyfin.lab
       homepage.widget.key: ${JELLYFIN_API_KEY}
+      homepage.widget.enableBlocks: true
 
       traefik.enable: true
       traefik.http.routers.jellyfin.rule: Host(`jellyfin.lab`)
