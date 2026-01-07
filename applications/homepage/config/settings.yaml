@@ -9,8 +9,17 @@ headerStyle: {{HOMEPAGE_VAR_HEADER_STYLE}}
 layout:
   Media:
     style: row
-    columns: 3
-  Download:
+    columns: 1
+  Torrent:
+    style: row
+    columns: 1
+  Network:
+    style: row
+    columns: 4
+  Indexers:
+    style: row
+    columns: 4
+  Infrastructure:
     style: row
     columns: 2
 
