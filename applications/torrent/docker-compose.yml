@@ -150,6 +150,8 @@ services:
       FIREWALL: on
       SERVER_COUNTRIES: Albania
       FIREWALL_VPN_INPUT_PORTS: 6881
+      FIREWALL_INPUT_PORTS: 8000,8085
+
     networks:
       - traefik-network
     ports:
@@ -174,7 +176,7 @@ services:
 
       traefik.http.routers.qbittorrent.rule: Host(`qbit.lab`)
       traefik.http.routers.qbittorrent.entrypoints: web
-      traefik.http.routers.qbittorrent.service: gluetun
+      traefik.http.routers.qbittorrent.service: qbittorrent
       traefik.http.services.qbittorrent.loadbalancer.server.port: 8085
 
 networks:
