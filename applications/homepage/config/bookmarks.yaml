@@ -2,7 +2,19 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/en/configs/bookmarks
 
-- Credits:
-    - Docker-Compose-NAS:
-        - abbr: NAS
-          href: https://github.com/AdrienPoupa/docker-compose-nas
+- Home:
+    - Asus Router:
+        - abbr: AR
+          icon: mdi-router-network-wireless
+          href: http://router.home/
+          description: ASUS home router
+    - Vodafone Modem:
+        - abbr: VM
+          icon: mdi-router-network-wireless
+          href: http://vodafone.home/
+          description: Vodafone home modem
+    - Cameras:
+        - abbr: CAM
+          icon: mdi-cctv
+          href: http://cameras.home/
+          description: Home security cameras
