@@ -16,7 +16,7 @@ services:
       homepage.icon: qbittorrent.png
       homepage.description: Torrent client
       homepage.href: http://qbit.lab
-      homepage.weight: 1
+      homepage.weight: 0
       homepage.widget.type: qbittorrent
       homepage.widget.url: http://gluetun:8085
       homepage.widget.username: "admin"
