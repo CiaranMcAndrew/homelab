@@ -51,6 +51,8 @@ services:
         ]
       interval: 1m
       retries: 10
+    networks:
+      - traefik-network
     labels:
       traefik.enable: true
       traefik.http.routers.jellyseerr.rule: Host(`jellyseerr.lab`)
