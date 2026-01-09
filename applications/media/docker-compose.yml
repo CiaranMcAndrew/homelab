@@ -38,7 +38,7 @@ services:
       - LOG_LEVEL=debug
       - TZ=${TIMEZONE}
     volumes:
-      - ${CONFIG_ROOT:-.}/jellyseerr:/app/config
+      - jellyseerr-config:/app/config
     restart: always
     healthcheck:
       test:
@@ -205,6 +205,7 @@ volumes:
   jellyfin-config:
   jellyfin-data:
     external: true
+  jellyseerr-config:
   sonarr-config:
   sonarr-data:
   radarr-config:
