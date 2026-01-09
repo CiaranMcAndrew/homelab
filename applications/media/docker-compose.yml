@@ -27,6 +27,7 @@ services:
     volumes:
       - jellyfin-config:/config
       - jellyfin-data:/data
+      - /media:/media
     env_file:
       - /opt/homelab/.env
 
@@ -40,6 +41,7 @@ services:
     volumes:
       - sonarr-config:/config
       - sonarr-data:/data
+      - /media:/media
     restart: always
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://127.0.0.1:8989/ping"]
@@ -75,6 +77,7 @@ services:
     volumes:
       - radarr-config:/config
       - radarr-data:/data
+      - /media:/media
     restart: always
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://127.0.0.1:7878/ping"]
