@@ -31,6 +31,40 @@ services:
     env_file:
       - /opt/homelab/.env
 
+  jellyseerr:
+    image: ghcr.io/fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=${TIMEZONE}
+    volumes:
+      - ${CONFIG_ROOT:-.}/jellyseerr:/app/config
+    restart: always
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "http://127.0.0.1:5055/api/v1/status",
+          "-qO",
+          "/dev/null",
+        ]
+      interval: 1m
+      retries: 10
+    labels:
+      traefik.enable: true
+      traefik.http.routers.jellyseerr.rule: Host(`jellyseerr.lab`)
+      traefik.http.services.jellyseerr.loadbalancer.server.port: 5055
+      homepage.group: Media
+      homepage.name: JellySeerr
+      homepage.icon: jellyseerr.png
+      homepage.href=: http://jellyseerr.lab
+      homepage.description: Content Recommendations and Request Management
+      homepage.weight: 3
+      homepage.widget.type: jellyseerr
+      homepage.widget.url: http://jellyseerr:5055
+      homepage.widget.key: ${JELLYSEERR_API_KEY}
+  
   sonarr:
     image: lscr.io/linuxserver/sonarr
     container_name: sonarr
