@@ -61,6 +61,9 @@ services:
       homepage.widget.key: ${SONARR_API_KEY}
     networks:
       - traefik-network
+    dns:
+      - 9.9.9.10      # Quad9 unfiltered
+      - 8.8.8.8       # Google
 
   radarr:
     image: lscr.io/linuxserver/radarr
@@ -93,6 +96,9 @@ services:
       homepage.widget.key: ${RADARR_API_KEY}
     networks:
       - traefik-network
+    dns:
+      - 9.9.9.10      # Quad9 unfiltered
+      - 8.8.8.8       # Google
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
@@ -123,6 +129,9 @@ services:
       homepage.widget.key: ${PROWLARR_API_KEY}
     networks:
       - traefik-network
+    dns:
+      - 9.9.9.10      # Quad9 unfiltered
+      - 8.8.8.8       # Google
 
 networks:
   traefik-network:
