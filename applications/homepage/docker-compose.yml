@@ -102,8 +102,8 @@ services:
     volumes:
       - filebrowser-config:/config
       - filebrowser-database:/database
-      - /media/tv:/srv/tv
-      - /media/movies:/srv/movies
+      - /media:/srv/media
+      - /downloads:/srv/downloads
     command:
       - --config
       - /config/settings.json
