@@ -24,6 +24,7 @@ services:
     volumes:
       - qbittorrent-config:/config
       - qbittorrent-downloads:/downloads #optional
+      - /downloads:/downloads:rw
       - /media:/media:rw 
     restart: unless-stopped
     network_mode: "service:gluetun"

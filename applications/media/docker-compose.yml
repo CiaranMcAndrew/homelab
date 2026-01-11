@@ -78,6 +78,7 @@ services:
       - sonarr-config:/config
       - sonarr-data:/data
       - /media/tv:/media/tv:rw
+      - /downloads/tv:/downloads/tv:rw
     restart: always
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://127.0.0.1:8989/ping"]
@@ -114,6 +115,7 @@ services:
       - radarr-config:/config
       - radarr-data:/data
       - /media/movies:/media/movies:rw
+      - /downloads/movies:/downloads/movies:rw
     restart: always
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://127.0.0.1:7878/ping"]
