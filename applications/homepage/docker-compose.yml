@@ -95,6 +95,28 @@ services:
     networks:
       - traefik-network
 
+
+  filebrowser:
+    image: filebrowser/filebrowser:latest
+    container_name: filebrowser
+    volumes:
+      - filebrowser-config:/config
+      - filebrowser-database:/database
+      - /media/tv:/srv/tv
+      - /media/movies:/srv/movies
+    command:
+      - --config
+      - /config/settings.json
+    networks:
+      - traefik-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.filebrowser.rule=Host(`files.lab`)"
+      - "traefik.http.routers.filebrowser.entrypoints=web"
+      - "traefik.http.services.filebrowser.loadbalancer.server.port=80"
+    restart: unless-stopped
+
+
 volumes:
   git-data:
     external: true
@@ -102,6 +124,8 @@ volumes:
     name: homepage-data
   myspeed-data:
     name: myspeed-data
+  filebrowser-config:
+  filebrowser-database:
 
 networks:
   traefik-network:
