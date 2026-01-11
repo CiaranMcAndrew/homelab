@@ -114,6 +114,13 @@ services:
       - "traefik.http.routers.filebrowser.rule=Host(`files.lab`)"
       - "traefik.http.routers.filebrowser.entrypoints=web"
       - "traefik.http.services.filebrowser.loadbalancer.server.port=80"
+
+      - "homepage.group=Media"
+      - "homepage.name=FileBrowser"
+      - "homepage.icon=filebrowser.png"
+      - "homepage.description=File manager"
+      - "homepage.href=http://files.lab"
+      - "homepage.weight=5"
     restart: unless-stopped
 
 
