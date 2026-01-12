@@ -3,11 +3,17 @@
 # https://gethomepage.dev/en/configs/widgets
 
 - resources:
+    label: Host
     cpu: true
+    cputemp: true
     memory: true
-    disk:
-      - /
-      - /mnt/media
+    disk: /
+    uptime: true
+    units: metric
+
+- resources:
+    label: Storage
+    disk: /mnt/media
 
 - search:
     provider: {{HOMEPAGE_VAR_SEARCH_PROVIDER}}
