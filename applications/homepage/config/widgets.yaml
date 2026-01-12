@@ -7,6 +7,7 @@
     memory: true
     disk:
       - /
+      - /mnt/media
 
 - search:
     provider: {{HOMEPAGE_VAR_SEARCH_PROVIDER}}
