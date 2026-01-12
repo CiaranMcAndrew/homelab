@@ -49,6 +49,8 @@ services:
       traefik.http.services.proxmox.loadbalancer.server.url: "https://192.168.51.225:8006"
       traefik.http.services.proxmox.loadbalancer.serverstransport: "internal-https"
     restart: unless-stopped
+    networks:
+      - traefik-network
 
   portainer-dummy:
     image: gcr.io/google_containers/pause:latest
@@ -71,6 +73,8 @@ services:
       traefik.http.services.portainer.loadbalancer.server.url: "https://192.168.51.218:9443"
       traefik.http.services.portainer.loadbalancer.serverstransport: "internal-https"
     restart: unless-stopped
+    networks:
+      - traefik-network
 
   myspeed:
     image:  germannewsmaker/myspeed:latest
