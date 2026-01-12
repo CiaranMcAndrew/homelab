@@ -150,7 +150,7 @@ services:
       PROTONVPN_PASSWORD: ${PROTON_PASSWORD}
       # Strongly recommended
       FIREWALL: on
-      SERVER_COUNTRIES: Albania
+      SERVER_COUNTRIES: United Kingdom
       FIREWALL_VPN_INPUT_PORTS: 6881
       FIREWALL_INPUT_PORTS: 8000,8085
 
