@@ -5,10 +5,8 @@
 - resources:
     label: Host
     cpu: true
-    cputemp: true
     memory: true
     disk: /
-    uptime: true
     units: metric
 
 - resources:

@@ -16,6 +16,7 @@ services:
     volumes:
       - homepage-data:/app/config
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /mnt/media:/mnt/media:ro
     restart: always
     labels:
       traefik.enable: true
