@@ -45,7 +45,7 @@ services:
 
       traefik.enable: true
       traefik.http.routers.proxmox.rule: Host(`proxmox.lab`)
-      traefik.http.routers.proxmox.entrypoints: web
+      traefik.http.routers.proxmox.entrypoints: websecure
       traefik.http.services.proxmox.loadbalancer.server.url: "https://192.168.51.225:8006"
       traefik.http.services.proxmox.loadbalancer.serverstransport: "internal-https"
     restart: unless-stopped
