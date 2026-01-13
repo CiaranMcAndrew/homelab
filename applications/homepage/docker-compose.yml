@@ -69,7 +69,7 @@ services:
 
       traefik.enable: true
       traefik.http.routers.portainer.rule: Host(`portainer.lab`)
-      traefik.http.routers.portainer.entrypoints: web
+      traefik.http.routers.portainer.entrypoints: websecure
       traefik.http.services.portainer.loadbalancer.server.url: "https://192.168.51.218:9443"
       traefik.http.services.portainer.loadbalancer.serverstransport: "internal-https"
     restart: unless-stopped
