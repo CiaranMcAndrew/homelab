@@ -189,4 +189,4 @@ networks:
     name: traefik-network
   portainer_net:
     external: true
-    name: portainer_net
+    name: portainer_portainer_net
