@@ -116,6 +116,7 @@ services:
       - homepage.widget.url=http://traefik.lab
     networks:
       - traefik-network
+      - portainer_net
     ports:
       - "80:80"
       - "8080:8080"
@@ -186,3 +187,6 @@ networks:
     name: pihole_network
   traefik-network:
     name: traefik-network
+  portainer_net:
+    external: true
+    name: portainer_net
