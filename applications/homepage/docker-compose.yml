@@ -63,14 +63,14 @@ services:
       homepage.href: http://portainer.lab
       homepage.weight: 0
       homepage.widget.type: portainer
-      homepage.widget.url: "https://192.168.51.218:9443"
+      homepage.widget.url: "https://portainer.lab"
       homepage.widget.env: 3
       homepage.widget.key: ${PORTAINER_API_KEY}
 
       traefik.enable: true
       traefik.http.routers.portainer.rule: Host(`portainer.lab`)
       traefik.http.routers.portainer.entrypoints: websecure
-      traefik.http.services.portainer.loadbalancer.server.url: "https://192.168.51.218:9443"
+      traefik.http.services.portainer.loadbalancer.server.url: "https://portainer:9443"
       traefik.http.services.portainer.loadbalancer.serverstransport: "internal-https"
     restart: unless-stopped
     networks:
