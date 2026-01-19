@@ -68,73 +68,6 @@ services:
       retries: 3
       start_period: 30s
     restart: unless-stopped
-
-  traefik:
-    image: ghcr.io/traefik/traefik:3.6
-    container_name: traefik
-    restart: always
-    environment:
-      - LETS_ENCRYPT_EMAIL=${LETS_ENCRYPT_EMAIL}
-    command:
-      - --ping=true
-      - --api.dashboard=true
-      - --api.insecure=true
-      - --providers.docker=true
-      - --providers.docker.exposedbydefault=false
-      - --entrypoints.web.address=:80
-      - --entrypoints.websecure.address=:443
-
-      # - --certificatesresolvers.myresolver.acme.dnschallenge=${DNS_CHALLENGE:-false}
-      # - --certificatesresolvers.myresolver.acme.dnschallenge.provider=${DNS_CHALLENGE_PROVIDER:-cloudflare}
-      # - --certificatesresolvers.myresolver.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53
-      # - --certificatesresolvers.myresolver.acme.caserver=${LETS_ENCRYPT_CA_SERVER:-https://acme-v02.api.letsencrypt.org/directory}
-      # - --certificatesresolvers.myresolver.acme.email=${LETS_ENCRYPT_EMAIL}
-      # - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
-    labels:
-      # Dashboard routing
-      - "traefik.enable=true"
-      - "traefik.http.routers.dashboard.rule=Host(`traefik.lab`)"
-      - "traefik.http.routers.dashboard.entrypoints=web"
-      # - "traefik.http.routers.dashboard.tls=true"
-      # - "traefik.http.routers.dashboard.tls.certresolver=myresolver"
-      - "traefik.http.routers.dashboard.service=api@internal"
-
-      # Homepage 
-      - homepage.group=Network
-      - homepage.name=Traefik
-      - homepage.icon=traefik.png
-      - homepage.href=http://traefik.lab
-      - homepage.description=Reverse proxy and load balancer
-      - homepage.weight=0
-      - homepage.widget.type=traefik
-      - homepage.widget.url=http://traefik.lab
-    networks:
-      - traefik-network
-      - portainer_net
-    ports:
-      - "80:80"
-      - "8080:8080"
-      - "443:443"
-    volumes:
-      - letsencrypt-data:/letsencrypt
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    extra_hosts:
-      - host.docker.internal:172.17.0.1
-    healthcheck:
-      test: ["CMD", "traefik", "healthcheck", "--ping"]
-      interval: 1m
-      retries: 10
-
-  traefik-transport:
-    image: gcr.io/google_containers/pause:latest
-    container_name: traefik_transport
-    labels:
-      traefik.enable: "false"
-      traefik.http.serverstransports.internal-https.insecureskipverify: "true"
-    networks:
-      - traefik-network
-
-
   pihole:
     container_name: pihole
     image: pihole/pihole:latest
@@ -191,6 +124,7 @@ networks:
     name: pihole_network
   traefik-network:
     name: traefik-network
+    external: true
   portainer_net:
     external: true
     name: portainer_portainer_net

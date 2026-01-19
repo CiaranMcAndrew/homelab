@@ -17,6 +17,14 @@ locals {
             }   
         },
         {
+            name      = "traefik"
+            file_path = "applications/traefik/docker-compose.yml"
+        },
+        {
+            name      = "watchtower"
+            file_path = "applications/watchtower/docker-compose.yml"
+        },
+        {
             name      = "media"
             file_path = "applications/media/docker-compose.yml"
             env_vars = {
