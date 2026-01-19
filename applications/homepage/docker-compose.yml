@@ -52,30 +52,30 @@ services:
     networks:
       - traefik-network
 
-  portainer-dummy:
-    image: gcr.io/google_containers/pause:latest
-    container_name: portainer_dummy
-    labels:
-      homepage.group: Infrastructure
-      homepage.name: Portainer
-      homepage.icon: portainer.png
-      homepage.description: Container management interface
-      homepage.href: http://portainer.lab
-      homepage.weight: 0
-      homepage.widget.type: portainer
-      homepage.widget.url: "https://192.168.51.218:9443"
-      homepage.widget.env: 3
-      homepage.widget.key: ${PORTAINER_API_KEY}
+  # portainer-dummy:
+  #   image: gcr.io/google_containers/pause:latest
+  #   container_name: portainer_dummy
+  #   labels:
+  #     homepage.group: Infrastructure
+  #     homepage.name: Portainer
+  #     homepage.icon: portainer.png
+  #     homepage.description: Container management interface
+  #     homepage.href: http://portainer.lab
+  #     homepage.weight: 0
+  #     homepage.widget.type: portainer
+  #     homepage.widget.url: "https://192.168.51.218:9443"
+  #     homepage.widget.env: 3
+  #     homepage.widget.key: ${PORTAINER_API_KEY}
 
-      traefik.enable: true
-      traefik.http.routers.portainer.rule: Host(`portainer.lab`)
-      traefik.http.routers.portainer.entrypoints: websecure
-      traefik.http.services.portainer.loadbalancer.server.url: "https://portainer:9443"
-      traefik.http.services.portainer.loadbalancer.serverstransport: "internal-https"
-    restart: unless-stopped
-    networks:
-      - traefik-network
-      - portainer_net
+  #     # traefik.enable: true
+  #     # traefik.http.routers.portainer.rule: Host(`portainer.lab`)
+  #     # traefik.http.routers.portainer.entrypoints: websecure
+  #     # traefik.http.services.portainer.loadbalancer.server.url: "https://portainer:9443"
+  #     # traefik.http.services.portainer.loadbalancer.serverstransport: "internal-https"
+  #   restart: unless-stopped
+  #   networks:
+  #     - traefik-network
+  #     - portainer_net
 
   myspeed:
     image:  germannewsmaker/myspeed:latest

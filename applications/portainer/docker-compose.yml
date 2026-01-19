@@ -24,6 +24,24 @@ services:
     # depends_on:
     #   - portainer_password_hash
     # command: --admin-password "$$(cat /run/secrets/portainer_admin_password_hash)"
+    labels:
+      homepage.group: Management
+      homepage.name: Portainer
+      homepage.icon: portainer.png
+      homepage.href: https://portainer.lab
+      homepage.description: Docker container management interface
+      homepage.weight: 0
+      homepage.widget.type: portainer
+      homepage.widget.url: https://portainer.lab
+
+      trafik.enable: true
+      traefik.http.routers.portainerhomepage.entrypoints: websecure
+      traefik.http.routers.portainer.rule: Host(`portainer.lab`)
+      traefik.http.services.portainer.loadbalancer.server.port: 9443
+      traefik.http.services.portainer.loadbalancer.server.scheme: https
+      traefik.http.services.portainer.loadbalancer.passhostheader: "true"
+      traefik.http.services.portainer.loadbalancer.insecureSkipVerify: "true"
+
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - portainer_data:/data
