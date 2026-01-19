@@ -34,7 +34,7 @@ services:
       homepage.widget.type: portainer
       homepage.widget.url: https://portainer.lab
 
-      trafik.enable: true
+      traefik.enable: true
       traefik.http.routers.portainerhomepage.entrypoints: websecure
       traefik.http.routers.portainer.rule: Host(`portainer.lab`)
       traefik.http.services.portainer.loadbalancer.server.port: 9443
