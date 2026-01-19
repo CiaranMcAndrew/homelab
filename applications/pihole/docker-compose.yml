@@ -83,16 +83,13 @@ services:
       - --providers.docker.exposedbydefault=false
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
-      # - --entrypoints.web.http.redirections.entryPoint.to=web
-      # - --entrypoints.web.http.redirections.entryPoint.scheme=http
-      # - --entrypoints.web.http.redirections.entrypoint.permanent=true
 
-      - --certificatesresolvers.myresolver.acme.dnschallenge=${DNS_CHALLENGE:-false}
-      - --certificatesresolvers.myresolver.acme.dnschallenge.provider=${DNS_CHALLENGE_PROVIDER:-cloudflare}
-      - --certificatesresolvers.myresolver.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53
-      - --certificatesresolvers.myresolver.acme.caserver=${LETS_ENCRYPT_CA_SERVER:-https://acme-v02.api.letsencrypt.org/directory}
-      - --certificatesresolvers.myresolver.acme.email=${LETS_ENCRYPT_EMAIL}
-      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+      # - --certificatesresolvers.myresolver.acme.dnschallenge=${DNS_CHALLENGE:-false}
+      # - --certificatesresolvers.myresolver.acme.dnschallenge.provider=${DNS_CHALLENGE_PROVIDER:-cloudflare}
+      # - --certificatesresolvers.myresolver.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53
+      # - --certificatesresolvers.myresolver.acme.caserver=${LETS_ENCRYPT_CA_SERVER:-https://acme-v02.api.letsencrypt.org/directory}
+      # - --certificatesresolvers.myresolver.acme.email=${LETS_ENCRYPT_EMAIL}
+      # - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
     labels:
       # Dashboard routing
       - "traefik.enable=true"
@@ -101,9 +98,6 @@ services:
       # - "traefik.http.routers.dashboard.tls=true"
       # - "traefik.http.routers.dashboard.tls.certresolver=myresolver"
       - "traefik.http.routers.dashboard.service=api@internal"
-
-      # Internal HTTPS transport (for services using HTTPS backend)
-      - "traefik.http.serverstransports.internal-https.insecureskipverify=true"
 
       # Homepage 
       - homepage.group=Network
@@ -130,6 +124,16 @@ services:
       test: ["CMD", "traefik", "healthcheck", "--ping"]
       interval: 1m
       retries: 10
+
+  traefik-transport:
+    image: gcr.io/google_containers/pause:latest
+    container_name: traefik_transport
+    labels:
+      traefik.enable: "false"
+      traefik.http.serverstransports.internal-https.insecureskipverify: "true"
+    networks:
+      - traefik-network
+
 
   pihole:
     container_name: pihole
