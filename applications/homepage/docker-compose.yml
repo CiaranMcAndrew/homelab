@@ -63,7 +63,7 @@ services:
       homepage.href: http://portainer.lab
       homepage.weight: 0
       homepage.widget.type: portainer
-      homepage.widget.url: "https://portainer.lab"
+      homepage.widget.url: "https://192.168.51.218:9443"
       homepage.widget.env: 3
       homepage.widget.key: ${PORTAINER_API_KEY}
 
@@ -75,6 +75,7 @@ services:
     restart: unless-stopped
     networks:
       - traefik-network
+      - portainer_net
 
   myspeed:
     image:  germannewsmaker/myspeed:latest
@@ -142,3 +143,6 @@ volumes:
 networks:
   traefik-network:
     external: true
+  portainer_net:
+    external: true
+    name: portainer_portainer_net
