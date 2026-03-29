@@ -31,42 +31,37 @@ services:
     env_file:
       - /opt/homelab/.env
 
-  jellyseerr:
-    image: ghcr.io/fallenbagel/jellyseerr:latest
-    container_name: jellyseerr
+  seerr:
+    image: ghcr.io/seerr-team/seerr:latest
+    container_name: seerr
     environment:
       - LOG_LEVEL=debug
       - TZ=${TIMEZONE}
     volumes:
-      - jellyseerr-config:/app/config
+      - seerr-config:/app/config
     restart: always
     healthcheck:
-      test:
-        [
-          "CMD",
-          "wget",
-          "http://127.0.0.1:5055/api/v1/status",
-          "-qO",
-          "/dev/null",
-        ]
-      interval: 1m
-      retries: 10
+      test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      retries: 3
     networks:
       - traefik-network
     labels:
       traefik.enable: true
-      traefik.http.routers.jellyseerr.rule: Host(`jellyseerr.lab`)
-      traefik.http.routers.jellyseerr.entrypoints: web
-      traefik.http.services.jellyseerr.loadbalancer.server.url: http://jellyseerr:5055
+      traefik.http.routers.seerr.rule: Host(`seerr.lab`)
+      traefik.http.routers.seerr.entrypoints: web
+      traefik.http.services.seerr.loadbalancer.server.url: http://seerr:5055
       homepage.group: Media
-      homepage.name: JellySeerr
-      homepage.icon: jellyseerr.png
-      homepage.href: http://jellyseerr.lab
+      homepage.name: Seerr
+      homepage.icon: seerr.png
+      homepage.href: http://seerr.lab
       homepage.description: Content Recommendations and Request Management
       homepage.weight: 3
-      homepage.widget.type: jellyseerr
-      homepage.widget.url: http://jellyseerr.lab
-      homepage.widget.key: ${JELLYSEERR_API_KEY}
+      homepage.widget.type: seerr
+      homepage.widget.url: http://seerr.lab
+      homepage.widget.key: ${SEERR_API_KEY}
   
   sonarr:
     image: lscr.io/linuxserver/sonarr
@@ -208,7 +203,7 @@ volumes:
   jellyfin-config:
   jellyfin-data:
     external: true
-  jellyseerr-config:
+  seerr-config:
   sonarr-config:
   sonarr-data:
   radarr-config:
