@@ -61,7 +61,7 @@ services:
       homepage.group: Media
       homepage.name: JellySeerr
       homepage.icon: jellyseerr.png
-      homepage.href=: http://jellyseerr.lab
+      homepage.href: http://jellyseerr.lab
       homepage.description: Content Recommendations and Request Management
       homepage.weight: 3
       homepage.widget.type: jellyseerr
