@@ -56,8 +56,8 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.jellyseerr.rule: Host(`jellyseerr.lab`)
-      traefik.http.services.jellyseerr.loadbalancer.server.port: 5055
-      homepage.group: Media
+      traefik.http.routers.jellyseerr.entrypoints: web
+      traefik.http.services.jellyseerr.loadbalancer.server.url: http://jellyseerr:5055
       homepage.name: JellySeerr
       homepage.icon: jellyseerr.png
       homepage.href=: http://jellyseerr.lab
