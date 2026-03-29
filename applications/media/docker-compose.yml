@@ -58,13 +58,14 @@ services:
       traefik.http.routers.jellyseerr.rule: Host(`jellyseerr.lab`)
       traefik.http.routers.jellyseerr.entrypoints: web
       traefik.http.services.jellyseerr.loadbalancer.server.url: http://jellyseerr:5055
+      homepage.group: Media
       homepage.name: JellySeerr
       homepage.icon: jellyseerr.png
       homepage.href=: http://jellyseerr.lab
       homepage.description: Content Recommendations and Request Management
       homepage.weight: 3
       homepage.widget.type: jellyseerr
-      homepage.widget.url: http://jellyseerr:5055
+      homepage.widget.url: http://jellyseerr.lab
       homepage.widget.key: ${JELLYSEERR_API_KEY}
   
   sonarr:
