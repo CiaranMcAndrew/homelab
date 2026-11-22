@@ -4,10 +4,10 @@ set -euo pipefail
 # ----------------------------
 # Configuration
 # ----------------------------
-VMID=108
-VM_NAME="docker-vm"
+VMID=109
+VM_NAME="dockerhost"
 VM_USER="ciaran"
-STORAGE="local-lvm"
+STORAGE="local"
 TEMPLATE_DIR="/var/lib/vz/template/iso"
 SNIPPETS_DIR="/var/lib/vz/snippets"
 IMAGE="debian-12-genericcloud-amd64.qcow2"
@@ -66,7 +66,7 @@ qm importdisk "$VMID" "$IMAGE" "$STORAGE"
 
 # Attach imported disk
 qm set "$VMID" \
-  --scsi0 "$STORAGE:vm-$VMID-disk-0"
+  --scsi0 "$STORAGE:$VMID/vm-$VMID-disk-0.raw"
 
 # ----------------------------
 # Cloud-init custom snippet
@@ -80,7 +80,9 @@ SSH_KEY_CONTENT=$(cat "$SSH_KEY")
 PASSWORD_HASH=$(openssl passwd -6 "password123")
 
 # Create the cloud-init config with proper variable substitution
-cat > "$SNIPPETS_DIR/base.yaml" <<EOF
+SNIPPET_FILE="vm-${VMID}-userdata.yaml"
+
+cat > "${SNIPPETS_DIR}/${SNIPPET_FILE}" <<EOF
 #cloud-config
 package_update: true
 package_upgrade: true
@@ -103,6 +105,7 @@ EOF
 # ----------------------------
 # Apply cloud-init config
 # ----------------------------
+qm set "$VMID" --cicustom "user=local:snippets/${SNIPPET_FILE}"
 qm set "$VMID" --cicustom "user=local:snippets/base.yaml"
 qm set "$VMID" --ipconfig0 ip=dhcp
 

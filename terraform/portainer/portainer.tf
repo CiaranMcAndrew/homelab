@@ -10,7 +10,7 @@ provider "portainer" {
   skip_ssl_verify  = true # optional (default value is `false`)
 }
 
-resource "portainer_user_admin" "init_admin_user" {
-  username = "admin"
-  password = var.portainer_admin_password
-}
+# resource "portainer_user_admin" "init_admin_user" {
+#   username = "admin"
+#   password = var.portainer_admin_password
+# }
