@@ -1,7 +1,0 @@
-# pihole/dns/custom.hosts
-192.168.51.217 traefik.lab
-192.168.51.217 pihole.lab
-192.168.51.217 home.lab
-192.168.51.217 portainer.lab
-192.168.51.217 jellyfin.lab
-192.168.51.225 proxmox.lab

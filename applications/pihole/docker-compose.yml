@@ -94,12 +94,11 @@ services:
       DNSMASQ_LISTENING: 'all'
       FTLCONF_webserver_port: '8081,[::]:8081,8444os,[::]:8444os'
       # FTLCONF_dns_hosts: "192.168.51.217 pihole.lab;192.168.51.217 home.lab"
-      FTLCONF_misc_dnsmasq_lines: 'hostsdir=/etc/pihole-custom'
+      FTLCONF_misc_dnsmasq_lines: 'addn-hosts=/etc/pihole/custom.list'
     network_mode: "host"
     volumes:
       - 'pihole-data:/etc/pihole'
       - ${GIT_DATA_DIR}/dnsmasq.d:/etc/dnsmasq.d
-      - ./dns:/etc/pihole-custom:ro
     cap_add:
       - NET_ADMIN
     depends_on:
