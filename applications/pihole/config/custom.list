@@ -1,6 +1,7 @@
 # homelab/applications/pihole/config/custom.list
 
 192.168.51.225 proxmox.lab
+
 192.168.51.217 traefik.lab
 192.168.51.217 pihole.lab
 192.168.51.217 home.lab
@@ -14,3 +15,7 @@
 192.168.51.217 qbit.lab
 192.168.51.217 gluetun.lab
 192.168.51.217 myspeed.lab
+
+192.168.51.1 router.home
+192.168.1.1 vodafone.home
+192.168.51.1 router.home
