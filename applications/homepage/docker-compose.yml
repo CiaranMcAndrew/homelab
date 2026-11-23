@@ -106,10 +106,10 @@ services:
     image: ghcr.io/gtsteffaniak/filebrowser:stable
     container_name: filebrowser
     volumes:
-      - filebrowser-config:/config
-      - filebrowser-database:/database
-      - /media:/srv/media
-      - /downloads:/srv/downloads
+      #- filebrowser-config:/config
+      #- filebrowser-database:/database
+      - /media:/folder/media
+      - /downloads:/folder/downloads
     command:
       - --config
       - /config/settings.json
