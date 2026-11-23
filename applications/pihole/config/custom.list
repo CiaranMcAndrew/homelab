@@ -8,6 +8,7 @@
 192.168.51.217 portainer.lab
 192.168.51.217 jellyfin.lab
 192.168.51.217 seerr.lab
+192.168.51.217 prowlarr.lab
 192.168.51.217 sonarr.lab
 192.168.51.217 radarr.lab
 192.168.51.217 flaresolverr.lab
