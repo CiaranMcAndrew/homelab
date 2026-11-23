@@ -108,8 +108,9 @@ services:
     volumes:
       #- filebrowser-config:/config
       #- filebrowser-database:/database
-      - /media:/folder/media
-      - /downloads:/folder/downloads
+      - /media:/home/filebrowser/media
+      - /downloads:/home/filebrowser/downloads
+      
     command:
       - --config
       - /config/settings.json
